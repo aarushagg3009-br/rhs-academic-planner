@@ -1,0 +1,114 @@
+{
+  "_comment": "Tunable weights for the RHS course recommender. Edit without touching Python.",
+
+  "career_track_bonuses": {
+    "business_finance": {
+      "548A": 55,
+      "6119": 45,
+      "610H": 40,
+      "611H": 40,
+      "6101": 30,
+      "6107": 30,
+      "6117": 25,
+      "312A": 35,
+      "3120": 20,
+      "378A": 20,
+      "250A": 25,
+      "260A": 25,
+      "542A": 30,
+      "555A": 10
+    },
+    "computer_science": {
+      "378A": 65,
+      "370H": 55,
+      "3780": 45,
+      "3700": 35,
+      "310A": 30,
+      "311A": 30,
+      "312A": 25,
+      "6145": 20,
+      "6139": 15
+    },
+    "medicine_premed": {
+      "120A": 65,
+      "130A": 55,
+      "132A": 40,
+      "140A": 45,
+      "165H": 45,
+      "160H": 35,
+      "555A": 30,
+      "312A": 25,
+      "144A": 30
+    },
+    "engineering": {
+      "144A": 65,
+      "140A": 55,
+      "130A": 45,
+      "311A": 55,
+      "310A": 50,
+      "312A": 35,
+      "378A": 35,
+      "7428": 30,
+      "7429": 30,
+      "142A": 40
+    },
+    "law_polisci": {
+      "542A": 65,
+      "548A": 45,
+      "544A": 40,
+      "546A": 35,
+      "555A": 35,
+      "250A": 35,
+      "260A": 35,
+      "6127": 30,
+      "6129": 30,
+      "230A": 20
+    },
+    "humanities_history": {
+      "544A": 60,
+      "546A": 50,
+      "555A": 40,
+      "250A": 40,
+      "260A": 40,
+      "230A": 35,
+      "242A": 35,
+      "2529": 20
+    },
+    "social_sciences": {
+      "555A": 60,
+      "546A": 50,
+      "544A": 30,
+      "5551": 25,
+      "5553": 20,
+      "250A": 35,
+      "260A": 35
+    },
+    "creative_arts": {
+      "742A": 65,
+      "743A": 60,
+      "740H": 55,
+      "7448": 50,
+      "7446": 35,
+      "250A": 30,
+      "260A": 25,
+      "7327": 20
+    }
+  },
+
+  "tier_ap_multiplier": {
+    "ivy_top10":        1.30,
+    "top20_30":         1.20,
+    "top50_regionals":  1.10,
+    "state_flagship":   1.00,
+    "liberal_arts":     1.10,
+    "community_college": 0.90
+  },
+
+  "hard_gate_types": [
+    "grade_level", "min_grade", "min_grade_group",
+    "exam_taken", "cumulative_gpa", "completed", "completed_group"
+  ],
+  "soft_gate_types": [
+    "concurrent", "concurrent_group"
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "rhs-rules-schema",
+  "title": "RHS POS Rules",
+  "description": "Schema for validating RHS_POS_2026-2027_rules.json",
+  "type": "object",
+  "required": ["meta", "grade_scale", "course_groups", "scheduling_rules", "graduation_requirements", "courses"],
+
+  "definitions": {
+    "prereqNode": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "none", "completed", "min_grade", "completed_group", "min_grade_group",
+            "concurrent", "concurrent_group", "cumulative_gpa", "exam_taken",
+            "grade_level", "all_of", "any_of"
+          ]
+        },
+        "course_codes":  {"type": "array", "items": {"type": "string"}},
+        "group":         {"type": "string"},
+        "group_label":   {"type": "string"},
+        "label":         {"type": "string"},
+        "min_gpa":       {"type": "number", "minimum": 0, "maximum": 4.3},
+        "min":           {"type": "integer", "minimum": 9, "maximum": 12},
+        "max":           {"type": "integer", "minimum": 9, "maximum": 12},
+        "conditions": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/prereqNode"}
+        }
+      }
+    },
+
+    "course": {
+      "type": "object",
+      "required": ["course_code", "name", "department", "level", "credits", "grade_levels", "duration", "prerequisites"],
+      "properties": {
+        "course_code":  {"type": "string", "minLength": 3},
+        "name":         {"type": "string", "minLength": 3},
+        "department":   {
+          "type": "string",
+          "enum": [
+            "Science", "English Language Arts", "Mathematics",
+            "Social Studies", "World Languages",
+            "Visual Arts", "Performing Arts", "Career Education",
+            "Physical Education"
+          ]
+        },
+        "level": {
+          "type": "string",
+          "enum": ["CP", "Enriched", "Honors", "AP"]
+        },
+        "credits": {
+          "type": "number",
+          "enum": [2.5, 5, 6, 7]
+        },
+        "grade_levels": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 9, "maximum": 12},
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "duration": {
+          "type": "string",
+          "enum": ["full_year", "one_semester"]
+        },
+        "prerequisites": {"$ref": "#/definitions/prereqNode"},
+        "corequisites": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "course_codes": {"type": "array", "items": {"type": "string"}}
+            }
+          }
+        },
+        "constraints": {
+          "type": "object",
+          "properties": {
+            "requires_study_hall": {"type": "boolean"},
+            "summer_work":         {"type": "boolean"},
+            "biannual":            {"type": "boolean"},
+            "biannual_parity":     {"type": "string", "enum": ["even", "odd"]},
+            "dual_enrollment":     {"type": "string"},
+            "fulfills":            {"type": "array", "items": {"type": "string"}},
+            "note":                {"type": "string"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["school", "source"],
+      "properties": {
+        "school":    {"type": "string"},
+        "source":    {"type": "string"},
+        "ceeb":      {"type": "string"},
+        "generated": {"type": "string"},
+        "note":      {"type": "string"}
+      }
+    },
+
+    "grade_scale": {
+      "type": "object",
+      "required": ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"],
+      "properties": {
+        "passing_threshold": {"type": "number"}
+      }
+    },
+
+    "course_groups": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {"type": "string"}
+      }
+    },
+
+    "scheduling_rules": {
+      "type": "object",
+      "required": ["ap_limits_by_grade", "study_hall_triggers", "max_study_halls_per_year"],
+      "properties": {
+        "ap_limits_by_grade": {
+          "type": "object",
+          "properties": {
+            "9":  {"type": "integer"},
+            "10": {"type": "integer"},
+            "11": {},
+            "12": {}
+          }
+        },
+        "study_hall_triggers": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "max_study_halls_per_year": {"type": "integer"},
+        "ap_capstone":             {"type": "object"},
+        "terminal_conversions":    {"type": "object"}
+      }
+    },
+
+    "graduation_requirements": {
+      "type": "object"
+    },
+
+    "courses": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/course"},
+      "minItems": 1
+    }
+  },
+
+  "additionalProperties": false
+}

@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RHS Academic Planner</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:       #2563eb;
+      --blue-dark:  #1d4ed8;
+      --blue-light: #dbeafe;
+      --blue-mid:   #93c5fd;
+      --green:      #059669;
+      --green-light:#d1fae5;
+      --red:        #dc2626;
+      --red-light:  #fee2e2;
+      --amber:      #d97706;
+      --g50:  #f9fafb;
+      --g100: #f3f4f6;
+      --g200: #e5e7eb;
+      --g300: #d1d5db;
+      --g400: #9ca3af;
+      --g500: #6b7280;
+      --g700: #374151;
+      --g900: #111827;
+      --r: 8px;
+      --sh: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--g50);
+      color: var(--g900);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* ── Navbar ── */
+    .nav {
+      background: var(--blue);
+      color: #fff;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 14px;
+      box-shadow: var(--sh);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -.4px; }
+    .nav-sep  { opacity: .35; }
+    .nav-sub  { font-size: 13px; opacity: .75; }
+
+    /* ── Layout ── */
+    .wrap { max-width: 980px; margin: 0 auto; padding: 32px 20px 60px; }
+
+    /* ── Card ── */
+    .card {
+      background: #fff;
+      border-radius: var(--r);
+      box-shadow: var(--sh);
+      margin-bottom: 22px;
+      overflow: hidden;
+    }
+    .card-head {
+      padding: 18px 22px 14px;
+      border-bottom: 1px solid var(--g100);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .step-num {
+      width: 26px; height: 26px;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step-num.done { background: var(--green); }
+    .card-title { font-size: 15px; font-weight: 600; }
+    .card-body  { padding: 22px; }
+
+    /* ── Form grid ── */
+    .fg { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px,1fr)); gap: 14px; }
+    .fg-full { grid-column: 1/-1; }
+    .fgroup { display: flex; flex-direction: column; gap: 5px; }
+    label { font-size: 13px; font-weight: 500; color: var(--g700); }
+
+    select, input[type="text"], input[type="number"] {
+      padding: 8px 10px;
+      border: 1px solid var(--g300);
+      border-radius: 6px;
+      font-size: 14px;
+      color: var(--g900);
+      background: #fff;
+      width: 100%;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    select:focus, input:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px var(--blue-light);
+    }
+
+    /* ── Career track checkboxes ── */
+    .cb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px,1fr)); gap: 8px; }
+    .cb-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 12px;
+      border: 1.5px solid var(--g200);
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--g700);
+      user-select: none;
+      transition: all .15s;
+    }
+    .cb-item:hover { border-color: var(--blue); background: var(--blue-light); }
+    .cb-item.selected { border-color: var(--blue); background: var(--blue-light); color: var(--blue-dark); font-weight: 500; }
+    .cb-item input { display: none; }
+
+    /* ── Section tab toggle (Upload / Manual) ── */
+    .seg {
+      display: inline-flex;
+      border: 1px solid var(--g200);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .seg-btn {
+      padding: 7px 16px;
+      font-size: 13px; font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: #fff;
+      color: var(--g500);
+      transition: all .15s;
+    }
+    .seg-btn + .seg-btn { border-left: 1px solid var(--g200); }
+    .seg-btn.active { background: var(--blue); color: #fff; }
+
+    /* ── Drop zone ── */
+    .drop-zone {
+      border: 2px dashed var(--g300);
+      border-radius: var(--r);
+      padding: 36px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+      position: relative;
+    }
+    .drop-zone:hover, .drop-zone.over { border-color: var(--blue); background: var(--blue-light); }
+    .drop-zone input[type="file"] {
+      position: absolute; inset: 0;
+      opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .drop-icon { font-size: 36px; color: var(--g300); margin-bottom: 10px; }
+    .drop-label { font-size: 14px; font-weight: 500; color: var(--g700); }
+    .drop-sub   { font-size: 12px; color: var(--g400); margin-top: 4px; }
+
+    /* ── File list ── */
+    .file-list { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+    .file-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px;
+      background: var(--g50);
+      border: 1px solid var(--g200);
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .file-icon { font-size: 18px; flex-shrink: 0; }
+    .file-name { flex: 1; font-weight: 500; color: var(--g900); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-size { color: var(--g400); white-space: nowrap; }
+    .file-status { font-size: 11px; font-weight: 600; }
+    .file-status.ok  { color: var(--green); }
+    .file-status.err { color: var(--red); }
+    .file-status.prs { color: var(--blue); }
+
+    /* ── Transcript table ── */
+    .tx-wrap { overflow-x: auto; margin-bottom: 14px; }
+    .tx-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 560px; }
+    .tx-table th {
+      text-align: left;
+      padding: 8px 10px;
+      font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .05em;
+      color: var(--g500);
+      background: var(--g50);
+      border-bottom: 1px solid var(--g200);
+    }
+    .tx-table td { padding: 6px 4px; vertical-align: middle; border-bottom: 1px solid var(--g100); }
+    .tx-table tr:last-child td { border-bottom: none; }
+    .tx-table td input[type="text"],
+    .tx-table td select { padding: 6px 8px; font-size: 13px; }
+    .tx-table td:last-child { width: 36px; }
+
+    .empty-tx {
+      text-align: center;
+      padding: 28px;
+      color: var(--g400);
+      font-size: 13px;
+      font-style: italic;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      padding: 9px 18px;
+      border-radius: 6px;
+      font-size: 14px; font-weight: 500;
+      cursor: pointer;
+      border: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: all .15s;
+    }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-primary:hover:not(:disabled) { background: var(--blue-dark); }
+    .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-secondary { background: var(--g100); color: var(--g700); border: 1px solid var(--g200); }
+    .btn-secondary:hover:not(:disabled) { background: var(--g200); }
+    .btn-secondary:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-ghost { background: none; border: none; cursor: pointer; color: var(--red); font-size: 14px; padding: 4px 8px; border-radius: 4px; transition: background .15s; }
+    .btn-ghost:hover { background: var(--red-light); }
+    .btn-sm { padding: 6px 14px; font-size: 13px; }
+    .btn-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    /* ── Spinner ── */
+    .spin {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .65s linear infinite;
+    }
+    .spin-dark {
+      width: 16px; height: 16px;
+      border: 2px solid var(--g200);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin .65s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Alerts ── */
+    .alert {
+      padding: 12px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      display: flex; gap: 10px;
+      margin-top: 14px;
+    }
+    .alert-err  { background: var(--red-light); color: #991b1b; border: 1px solid #fecaca; }
+    .badge-target {
+      background: #fef3c7; color: #92400e;
+      border: 1px solid #fde68a;
+      font-size: 11px; font-weight: 700;
+      padding: 2px 8px; border-radius: 10px;
+      display: inline-flex; align-items: center; gap: 3px;
+    }
+    .badge-studyhall {
+      background: #fff7ed; color: #c2410c;
+      border: 1px solid #fed7aa;
+      font-size: 11px; font-weight: 600;
+      padding: 2px 8px; border-radius: 10px;
+      display: inline-flex; align-items: center; gap: 3px;
+      margin-top: 4px;
+    }
+    .year-note {
+      font-size: 12px; color: var(--g500);
+      background: var(--g50); border: 1px solid var(--g200);
+      border-radius: 6px; padding: 10px 14px;
+      margin-bottom: 14px; line-height: 1.5;
+    }
+    .alert-ok   { background: var(--green-light); color: #065f46; border: 1px solid #6ee7b7; }
+
+    /* ── Year tabs ── */
+    .tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+    .tab {
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 13px; font-weight: 500;
+      cursor: pointer;
+      border: 1.5px solid var(--g200);
+      background: #fff;
+      color: var(--g500);
+      transition: all .15s;
+    }
+    .tab:hover { border-color: var(--blue); color: var(--blue); }
+    .tab.active { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+    /* ── Slots grid ── */
+    .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px,1fr)); gap: 14px; }
+
+    .slot-card { border: 1px solid var(--g200); border-radius: var(--r); overflow: hidden; }
+    .slot-head {
+      padding: 10px 14px;
+      background: var(--g50);
+      border-bottom: 1px solid var(--g200);
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      color: var(--g500);
+    }
+
+    .course-row {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--g100);
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .course-row:last-child { border-bottom: none; }
+
+    .rank {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .rank-1 { background: #fef3c7; color: #92400e; }
+    .rank-2 { background: var(--g200); color: var(--g700); }
+    .rank-3 { background: #fce7f3; color: #9d174d; }
+
+    .course-info { flex: 1; min-width: 0; }
+    .course-name { font-size: 14px; font-weight: 500; line-height: 1.3; }
+    .course-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 3px; }
+
+    .badge {
+      display: inline-flex; align-items: center;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-size: 11px; font-weight: 600;
+    }
+    .badge-ap    { background: #ede9fe; color: #5b21b6; }
+    .badge-hon   { background: var(--blue-light); color: #1e40af; }
+    .badge-cp    { background: var(--green-light); color: #065f46; }
+    .badge-other { background: var(--g100); color: var(--g700); }
+
+    .course-code-tag { font-family: monospace; font-size: 11px; color: var(--g400); }
+    .credit-tag      { font-size: 11px; color: var(--g400); }
+    .reason-text     { font-size: 11px; color: var(--g500); margin-top: 4px; line-height: 1.4; }
+
+    .score-bar  { height: 3px; background: var(--g100); border-radius: 2px; margin-top: 6px; overflow: hidden; }
+    .score-fill { height: 100%; background: var(--blue-mid); border-radius: 2px; }
+
+    .no-courses { padding: 14px; font-size: 13px; color: var(--g400); font-style: italic; }
+
+    /* ── Hint text ── */
+    .hint { font-size: 12px; color: var(--g400); margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+<!-- ── Login overlay ── -->
+<div id="login-overlay" style="position:fixed;inset:0;background:var(--g50);z-index:100;display:flex;align-items:center;justify-content:center;">
+  <div class="card" style="max-width:400px;width:100%;margin:0 20px;">
+    <div class="card-head">
+      <div class="card-title">RHS Academic Planner — Access</div>
+    </div>
+    <div class="card-body">
+      <p style="font-size:14px;color:var(--g500);margin-bottom:18px;">
+        Enter the school access code to continue.
+      </p>
+      <div class="fgroup">
+        <label for="key-input">Access Code</label>
+        <input type="password" id="key-input" placeholder="Access code"
+               onkeydown="if(event.key==='Enter')doLogin()" autocomplete="current-password">
+      </div>
+      <div id="login-err" style="margin-top:10px;"></div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:14px;" onclick="doLogin()">
+        Continue
+      </button>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <span class="nav-logo">RHS Academic Planner</span>
+  <span class="nav-sep">|</span>
+  <span class="nav-sub">Ridge High School &nbsp;·&nbsp; 2026–2027</span>
+</nav>
+
+<div class="wrap">
+
+  <!-- ── Step 1: Profile ── -->
+  <div class="card">
+    <div class="card-head">
+      <div class="step-num">1</div>
+      <div class="card-title">Student Profile</div>
+    </div>
+    <div class="card-body">
+      <div class="fg">
+
+        <div class="fgroup">
+          <label for="student-grade">Entering Grade</label>
+          <select id="student-grade">
+            <option value="9">9th Grade (Freshman)</option>
+            <option value="10">10th Grade (Sophomore)</option>
+            <option value="11">11th Grade (Junior)</option>
+            <option value="12">12th Grade (Senior)</option>
+          </select>
+        </div>
+
+        <div class="fgroup">
+          <label for="target-tier">College Target</label>
+          <select id="target-tier">
+            <option value="ivy_top10">Ivy / Top 10</option>
+            <option value="top20_30">Top 20–30</option>
+            <option value="top50_regionals">Top 50 / Regionals</option>
+            <option value="state_flagship" selected>State Flagship</option>
+            <option value="liberal_arts">Liberal Arts College</option>
+            <option value="community_college">Community College</option>
+          </select>
+        </div>
+
+        <div class="fgroup fg-full">
+          <label>Career Interests <span style="font-weight:400;color:var(--g400)">(select up to 3)</span></label>
+          <div class="cb-grid" id="career-tracks">
+            <label class="cb-item" data-val="business_finance"><input type="checkbox" value="business_finance"> Business &amp; Finance</label>
+            <label class="cb-item" data-val="computer_science"><input type="checkbox" value="computer_science"> Computer Science</label>
+            <label class="cb-item" data-val="medicine_premed"><input type="checkbox" value="medicine_premed"> Medicine / Pre-Med</label>
+            <label class="cb-item" data-val="engineering"><input type="checkbox" value="engineering"> Engineering</label>
+            <label class="cb-item" data-val="law_polisci"><input type="checkbox" value="law_polisci"> Law / Political Science</label>
+            <label class="cb-item" data-val="humanities_history"><input type="checkbox" value="humanities_history"> Humanities &amp; History</label>
+            <label class="cb-item" data-val="social_sciences"><input type="checkbox" value="social_sciences"> Social Sciences</label>
+            <label class="cb-item" data-val="creative_arts"><input type="checkbox" value="creative_arts"> Creative Arts</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Step 2: Transcript ── -->
+  <div class="card">
+    <div class="card-head">
+      <div class="step-num">2</div>
+      <div class="card-title">Transcript</div>
+    </div>
+    <div class="card-body">
+
+      <!-- Tab toggle -->
+      <div class="seg">
+        <button class="seg-btn active" id="tab-upload" onclick="switchTab('upload')">&#128196; Upload PDFs</button>
+        <button class="seg-btn"        id="tab-manual" onclick="switchTab('manual')">&#9998; Enter Manually</button>
+      </div>
+
+      <!-- Upload panel -->
+      <div id="panel-upload">
+        <div class="drop-zone" id="drop-zone"
+             ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+          <input type="file" accept="application/pdf" multiple id="file-input" onchange="onFileChange(event)">
+          <div class="drop-icon">&#128196;</div>
+          <div class="drop-label">Drag PDF transcripts here, or click to browse</div>
+          <div class="drop-sub">You can upload multiple PDFs — one per academic year</div>
+        </div>
+
+        <div class="file-list" id="file-list"></div>
+
+        <div style="margin-top:16px;" class="btn-row">
+          <button class="btn btn-primary btn-sm" id="parse-btn" onclick="parseFiles()" disabled>
+            Parse Transcripts
+          </button>
+          <button class="btn btn-secondary btn-sm" onclick="clearFiles()">Clear</button>
+        </div>
+        <div id="parse-err"></div>
+      </div>
+
+      <!-- Manual panel -->
+      <div id="panel-manual" style="display:none;">
+        <p class="hint" style="margin-top:0;margin-bottom:14px;">
+          Add every RHS course you have completed. If you are entering 9th grade with no prior RHS courses, leave this empty.
+        </p>
+        <div class="tx-wrap">
+          <table class="tx-table">
+            <thead>
+              <tr>
+                <th style="width:100px">Code</th>
+                <th>Course Name <span style="font-weight:400;font-style:italic">(optional)</span></th>
+                <th style="width:90px">Grade</th>
+                <th style="width:100px">Grade Lvl</th>
+                <th style="width:70px;text-align:center">AP Exam</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tx-body">
+              <tr id="tx-empty">
+                <td colspan="6" class="empty-tx">No courses added yet. Click "Add Course" below.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="addRow()">+ Add Course</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── Step 3: Submit ── -->
+  <div class="card">
+    <div class="card-head">
+      <div class="step-num">3</div>
+      <div class="card-title">Generate Plan</div>
+    </div>
+    <div class="card-body">
+      <div class="btn-row">
+        <button class="btn btn-primary" id="submit-btn" onclick="submit()">
+          Generate Course Plan
+        </button>
+        <button class="btn btn-secondary" onclick="reset()">Reset</button>
+      </div>
+      <div id="err-box"></div>
+    </div>
+  </div>
+
+  <!-- ── Results ── -->
+  <div id="results" style="display:none;">
+    <div class="card">
+      <div class="card-head">
+        <div class="step-num done">&#10003;</div>
+        <div class="card-title">Your Course Plan</div>
+      </div>
+      <div class="card-body">
+        <div class="tabs" id="year-tabs"></div>
+        <div id="plan-body"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+  const API = '';
+  const GRADES = ['A+','A','A-','B+','B','B-','C+','C','C-','D+','D','D-','F'];
+  const SLOT_LABEL = {
+    english:'English', math:'Mathematics', science:'Science',
+    social_studies:'Social Studies', world_language:'World Language',
+    elective_1:'Elective 1', elective_2:'Elective 2', pe_health:'PE / Health',
+  };
+  const YEAR_LABEL = {
+    grade_9:'Grade 9', grade_10:'Grade 10', grade_11:'Grade 11', grade_12:'Grade 12',
+    year_1:'Year 1', year_2:'Year 2 (Projected)',
+  };
+
+  let planData   = null;
+  let activeYear = null;
+  let rowCount   = 0;
+  let pdfFiles   = []; // {file: File, status: 'pending'|'parsing'|'ok'|'err', msg: string}
+  let apiKey     = sessionStorage.getItem('rhs_api_key') || '';
+
+  if (apiKey) document.getElementById('login-overlay').style.display = 'none';
+
+  function doLogin() {
+    const key = document.getElementById('key-input').value.trim();
+    if (!key) return;
+    apiKey = key;
+    sessionStorage.setItem('rhs_api_key', key);
+    document.getElementById('login-overlay').style.display = 'none';
+    document.getElementById('login-err').innerHTML = '';
+  }
+
+  function showLogin(errMsg) {
+    document.getElementById('key-input').value = '';
+    document.getElementById('login-err').innerHTML = errMsg
+      ? `<div class="alert alert-err">&#9888;&nbsp;${errMsg}</div>` : '';
+    document.getElementById('login-overlay').style.display = 'flex';
+  }
+
+  // ── Tab toggle ─────────────────────────────────────────────────────────────
+  function switchTab(t) {
+    document.getElementById('panel-upload').style.display = t === 'upload' ? '' : 'none';
+    document.getElementById('panel-manual').style.display = t === 'manual' ? '' : 'none';
+    document.getElementById('tab-upload').classList.toggle('active', t === 'upload');
+    document.getElementById('tab-manual').classList.toggle('active', t === 'manual');
+  }
+
+  // ── Career tracks ──────────────────────────────────────────────────────────
+  document.getElementById('career-tracks').addEventListener('click', e => {
+    const item = e.target.closest('.cb-item');
+    if (!item) return;
+    const cb = item.querySelector('input');
+    const checked = document.querySelectorAll('#career-tracks input:checked');
+    if (!cb.checked && checked.length >= 3) return;
+    cb.checked = !cb.checked;
+    item.classList.toggle('selected', cb.checked);
+  });
+
+  // ── Drag-and-drop ──────────────────────────────────────────────────────────
+  function onDragOver(e) {
+    e.preventDefault();
+    document.getElementById('drop-zone').classList.add('over');
+  }
+  function onDragLeave(e) {
+    document.getElementById('drop-zone').classList.remove('over');
+  }
+  function onDrop(e) {
+    e.preventDefault();
+    document.getElementById('drop-zone').classList.remove('over');
+    addFiles(Array.from(e.dataTransfer.files).filter(f => f.type === 'application/pdf'));
+  }
+  function onFileChange(e) {
+    addFiles(Array.from(e.target.files));
+    e.target.value = ''; // reset so same file can be re-added
+  }
+
+  function addFiles(files) {
+    files.forEach(f => {
+      if (!pdfFiles.find(p => p.file.name === f.name && p.file.size === f.size))
+        pdfFiles.push({ file: f, status: 'pending', msg: '' });
+    });
+    renderFileList();
+    document.getElementById('parse-btn').disabled = pdfFiles.length === 0;
+  }
+
+  function removeFile(i) {
+    pdfFiles.splice(i, 1);
+    renderFileList();
+    document.getElementById('parse-btn').disabled = pdfFiles.length === 0;
+  }
+
+  function clearFiles() {
+    pdfFiles = [];
+    renderFileList();
+    document.getElementById('parse-btn').disabled = true;
+    document.getElementById('parse-err').innerHTML = '';
+  }
+
+  function fmtSize(b) {
+    if (b < 1024)       return b + ' B';
+    if (b < 1048576)    return (b/1024).toFixed(0) + ' KB';
+    return (b/1048576).toFixed(1) + ' MB';
+  }
+
+  function renderFileList() {
+    const el = document.getElementById('file-list');
+    if (pdfFiles.length === 0) { el.innerHTML = ''; return; }
+    el.innerHTML = pdfFiles.map((p, i) => {
+      const statusHtml =
+        p.status === 'parsing' ? '<div class="spin-dark"></div>' :
+        p.status === 'ok'  ? `<span class="file-status ok">&#10003; Parsed</span>` :
+        p.status === 'err' ? `<span class="file-status err" title="${esc(p.msg)}">&#9888; Error</span>` :
+        `<span class="file-status" style="color:var(--g400)">Pending</span>`;
+      const gradeOpts = [8,9,10,11,12].map(g =>
+        `<option value="${g}"${(p.gradeYear||9)===g?' selected':''}>${g}th Grade</option>`
+      ).join('');
+      return `
+        <div class="file-item" id="file-item-${i}">
+          <span class="file-icon">&#128196;</span>
+          <span class="file-name" title="${esc(p.file.name)}">${esc(p.file.name)}</span>
+          <select onchange="pdfFiles[${i}].gradeYear=parseInt(this.value)"
+                  style="padding:4px 8px;font-size:12px;border:1px solid var(--g200);border-radius:5px;width:auto;">
+            ${gradeOpts}
+          </select>
+          <span class="file-size">${fmtSize(p.file.size)}</span>
+          ${statusHtml}
+          <button class="btn-ghost" onclick="removeFile(${i})" title="Remove" style="padding:2px 6px;font-size:12px;">&#10005;</button>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Parse PDFs ─────────────────────────────────────────────────────────────
+  async function parseFiles() {
+    const parseBtn = document.getElementById('parse-btn');
+    parseBtn.disabled = true;
+    parseBtn.innerHTML = '<div class="spin"></div> Parsing...';
+    document.getElementById('parse-err').innerHTML = '';
+
+    const allCourses = [];
+    let maxGradeYear = 9;
+    let authFailed = false;
+
+    for (let i = 0; i < pdfFiles.length; i++) {
+      if (authFailed) break;
+      pdfFiles[i].status = 'parsing';
+      renderFileList();
+
+      const gradeYear = pdfFiles[i].gradeYear || 9;
+      const base64 = await readFileAsBase64(pdfFiles[i].file);
+
+      try {
+        const res = await fetch(`${API}/parse-transcript`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true', 'X-API-Key': apiKey },
+          body: JSON.stringify({ files: [{ name: pdfFiles[i].file.name, data: base64 }] }),
+        });
+
+        if (res.status === 401) {
+          authFailed = true;
+          break;
+        }
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          throw new Error(body.detail || `Server error ${res.status}`);
+        }
+
+        const courses = await res.json();
+
+        // Override every course's grade_level with what the user specified
+        courses.forEach(c => { c.grade_level = gradeYear; });
+        allCourses.push(...courses);
+
+        if (gradeYear > maxGradeYear) maxGradeYear = gradeYear;
+        pdfFiles[i].status = 'ok';
+
+      } catch (e) {
+        pdfFiles[i].status = 'err';
+        pdfFiles[i].msg = e.message;
+      }
+
+      renderFileList();
+    }
+
+    parseBtn.disabled = false;
+    parseBtn.innerHTML = 'Parse Transcripts';
+
+    if (authFailed) {
+      apiKey = ''; sessionStorage.removeItem('rhs_api_key');
+      showLogin('Incorrect access code. Please try again.');
+      return;
+    }
+
+    const failed = pdfFiles.filter(p => p.status === 'err');
+    if (allCourses.length === 0 && failed.length > 0) {
+      const isConn = failed[0].msg.toLowerCase().includes('fetch');
+      document.getElementById('parse-err').innerHTML =
+        `<div class="alert alert-err">&#9888;&nbsp; ${isConn
+          ? 'Cannot reach the API. Make sure the server is running.'
+          : esc(failed[0].msg)}</div>`;
+      return;
+    }
+
+    // Deduplicate by course_code across all files
+    const seen = new Map();
+    allCourses.forEach(c => { if (c.course_code) seen.set(c.course_code, c); });
+    const unique = Array.from(seen.values());
+
+    populateTranscript(unique);
+    switchTab('manual');
+
+    // Auto-advance entering grade to one above the highest transcript grade year
+    document.getElementById('student-grade').value = String(Math.min(maxGradeYear + 1, 12));
+
+    const parsed = unique.length;
+    const warn = failed.length > 0 ? ` (${failed.length} file(s) failed)` : '';
+    document.getElementById('parse-err').innerHTML =
+      `<div class="alert alert-ok">&#10003;&nbsp; Parsed ${parsed} course${parsed !== 1 ? 's' : ''}${warn}. Review and edit below.</div>`;
+  }
+
+  function readFileAsBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // result is data:application/pdf;base64,<data> — strip the prefix
+        const b64 = reader.result.split(',')[1];
+        resolve(b64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ── Transcript rows ────────────────────────────────────────────────────────
+  function populateTranscript(courses) {
+    // Clear existing rows
+    document.getElementById('tx-body').innerHTML =
+      '<tr id="tx-empty"><td colspan="6" class="empty-tx">No courses added yet.</td></tr>';
+    rowCount = 0;
+    courses.forEach(c => addRow(c));
+  }
+
+  function addRow(data = {}) {
+    const emptyRow = document.getElementById('tx-empty');
+    if (emptyRow) emptyRow.remove();
+    const id = ++rowCount;
+    const tr = document.createElement('tr');
+    tr.id = `row-${id}`;
+    tr.innerHTML = `
+      <td><input type="text" placeholder="e.g. 120C" value="${esc(data.course_code||'')}"
+           style="width:88px;" oninput="this.value=this.value.toUpperCase().trim()"></td>
+      <td><input type="text" placeholder="Course name" value="${esc(data.name||'')}" style="min-width:140px;"></td>
+      <td>
+        <select style="width:78px;">
+          ${GRADES.map(g=>`<option value="${g}"${g===(data.grade||'B')?' selected':''}>${g}</option>`).join('')}
+        </select>
+      </td>
+      <td>
+        <select style="width:90px;">
+          ${[8,9,10,11,12].map(g=>`<option value="${g}"${g===(data.grade_level||9)?' selected':''}>${g}th</option>`).join('')}
+        </select>
+      </td>
+      <td style="text-align:center;">
+        <input type="checkbox" ${data.exam_taken?'checked':''} style="width:15px;height:15px;accent-color:var(--blue);">
+      </td>
+      <td><button class="btn-ghost" onclick="removeRow(${id})" title="Remove">&#10005;</button></td>
+    `;
+    document.getElementById('tx-body').appendChild(tr);
+  }
+
+  function removeRow(id) {
+    const row = document.getElementById(`row-${id}`);
+    if (row) row.remove();
+    if (!document.querySelector('#tx-body tr:not(#tx-empty)')) showEmptyTx();
+  }
+
+  function showEmptyTx() {
+    const tr = document.createElement('tr');
+    tr.id = 'tx-empty';
+    tr.innerHTML = '<td colspan="6" class="empty-tx">No courses added yet. Click "Add Course" below.</td>';
+    document.getElementById('tx-body').appendChild(tr);
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ── Collect form values ────────────────────────────────────────────────────
+  function getTranscript() {
+    const rows = document.querySelectorAll('#tx-body tr:not(#tx-empty)');
+    return Array.from(rows).map(r => {
+      const inputs = r.querySelectorAll('input,select');
+      return {
+        course_code: inputs[0].value.trim().toUpperCase(),
+        name:        inputs[1].value.trim(),
+        grade:       inputs[2].value,
+        grade_level: parseInt(inputs[3].value),
+        exam_taken:  inputs[4].checked,
+      };
+    }).filter(e => e.course_code);
+  }
+
+  function getCareerTracks() {
+    return Array.from(document.querySelectorAll('#career-tracks input:checked')).map(c => c.value);
+  }
+
+  // ── Submit ─────────────────────────────────────────────────────────────────
+  async function submit() {
+    clearErr();
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spin"></div> Generating...';
+
+    const payload = {
+      student_grade: parseInt(document.getElementById('student-grade').value),
+      target_tier:   document.getElementById('target-tier').value,
+      career_tracks: getCareerTracks(),
+      transcript:    getTranscript(),
+    };
+
+    try {
+      const res = await fetch(`${API}/recommend`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true', 'X-API-Key': apiKey },
+        body: JSON.stringify(payload),
+      });
+      if (res.status === 401) {
+        apiKey = ''; sessionStorage.removeItem('rhs_api_key');
+        showLogin('Incorrect access code. Please try again.');
+        return;
+      }
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.detail || `Server returned ${res.status}`);
+      }
+      planData = await res.json();
+      renderResults(planData);
+    } catch (e) {
+      const isConn = e instanceof TypeError && e.message.toLowerCase().includes('fetch');
+      showErr(isConn ? 'Cannot reach the API server.' : esc(e.message));
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = 'Generate Course Plan';
+    }
+  }
+
+  function reset() {
+    document.getElementById('results').style.display = 'none';
+    clearErr();
+    planData = null;
+    activeYear = null;
+  }
+
+  function showErr(msg) {
+    document.getElementById('err-box').innerHTML =
+      `<div class="alert alert-err">&#9888;&nbsp;<span>${msg}</span></div>`;
+  }
+  function clearErr() { document.getElementById('err-box').innerHTML = ''; }
+
+  // ── Render results ─────────────────────────────────────────────────────────
+  function renderResults(data) {
+    const years = Object.keys(data);
+    activeYear = years[0];
+
+    document.getElementById('year-tabs').innerHTML = years.map(y =>
+      `<button class="tab${y===activeYear?' active':''}" onclick="switchYear('${y}')">${YEAR_LABEL[y]||y}</button>`
+    ).join('');
+
+    renderYear(activeYear, data[activeYear], true);
+
+    const el = document.getElementById('results');
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function switchYear(y) {
+    activeYear = y;
+    const years = Object.keys(planData);
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', years[i] === y);
+    });
+    renderYear(y, planData[y], y === years[0]);
+  }
+
+  function renderYear(year, slots, isFirstYear) {
+    const el = document.getElementById('plan-body');
+    if (!slots || !Object.keys(slots).length) {
+      el.innerHTML = '<p style="color:var(--g400);font-size:14px;">No recommendations returned for this year.</p>';
+      return;
+    }
+
+    const allCourses = Object.values(slots).flat();
+    const maxScore   = Math.max(...allCourses.map(c => c.score||0), 1);
+
+    // Find the suggested grade from the first rank-1 course that has one
+    const suggestedGrade = allCourses.find(c => c.suggested_grade)?.suggested_grade;
+
+    const slotOrder = ['english','math','science','social_studies','world_language','elective_1','elective_2','pe_health'];
+    const ordered   = [...slotOrder.filter(s => s in slots), ...Object.keys(slots).filter(s => !slotOrder.includes(s))];
+
+    const note = (isFirstYear && suggestedGrade)
+      ? `<div class="year-note">&#127919; <strong>Target grade: ${suggestedGrade}</strong> for each #1 course below, based on your college goal.
+           The Year 2 plan is built assuming you took these courses and achieved ${suggestedGrade}.</div>`
+      : '';
+
+    el.innerHTML = note + `<div class="slots">${
+      ordered.map(slot => {
+        const courses = (slots[slot]||[]).filter(c => c.eligible !== false);
+        return `
+          <div class="slot-card">
+            <div class="slot-head">${SLOT_LABEL[slot]||slot.replace(/_/g,' ')}</div>
+            ${courses.length === 0
+              ? '<div class="no-courses">No eligible courses</div>'
+              : courses.slice(0,3).map((c,i) => courseRow(c, i+1, maxScore)).join('')}
+          </div>`;
+      }).join('')
+    }</div>`;
+  }
+
+  function levelBadge(level) {
+    if (!level) return '';
+    const l = level.toLowerCase();
+    if (l.includes('ap'))   return `<span class="badge badge-ap">${level}</span>`;
+    if (l.includes('hon'))  return `<span class="badge badge-hon">${level}</span>`;
+    if (l.includes('cp'))   return `<span class="badge badge-cp">${level}</span>`;
+    return `<span class="badge badge-other">${level}</span>`;
+  }
+
+  function courseRow(c, rank, maxScore) {
+    const pct = Math.round(((c.score||0)/maxScore)*100);
+    const gradeBadge = (rank === 1 && c.suggested_grade)
+      ? `<span class="badge-target">&#127919; Target ${c.suggested_grade}</span>`
+      : '';
+    const studyHall = c.constraints?.requires_study_hall
+      ? `<div class="badge-studyhall">&#9888; Requires a free Study Hall period in your schedule</div>`
+      : '';
+    return `
+      <div class="course-row">
+        <div class="rank rank-${rank}">${rank}</div>
+        <div class="course-info">
+          <div class="course-name" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            ${esc(c.name||c.course_code)} ${gradeBadge}
+          </div>
+          <div class="course-meta">
+            <span class="course-code-tag">${esc(c.course_code)}</span>
+            ${levelBadge(c.level)}
+            ${c.credits ? `<span class="credit-tag">${c.credits} cr</span>` : ''}
+          </div>
+          ${c.reason ? `<div class="reason-text">${esc(c.reason)}</div>` : ''}
+          ${studyHall}
+          <div class="score-bar"><div class="score-fill" style="width:${pct}%"></div></div>
+        </div>
+      </div>`;
+  }
+</script>
+
+</body>
+</html>

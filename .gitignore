@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Env / secrets
+.env
+.env.local
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+
+# macOS
+.DS_Store
+
+# Test artifacts
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Output / generated files (keep source data, ignore large outputs)
+outputs/
+*.log

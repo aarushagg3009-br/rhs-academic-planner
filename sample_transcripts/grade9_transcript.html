@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; font-size: 11px; color: #000; padding: 36px 48px; }
+
+  .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 12px; margin-bottom: 16px; }
+  .header h1 { font-size: 18px; font-weight: bold; letter-spacing: 1px; }
+  .header h2 { font-size: 13px; font-weight: normal; margin-top: 2px; }
+  .header p  { font-size: 11px; margin-top: 2px; color: #444; }
+
+  .info-row { display: flex; gap: 40px; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid #ccc; }
+  .info-block label { font-weight: bold; font-size: 10px; text-transform: uppercase; color: #555; display: block; }
+  .info-block span  { font-size: 12px; }
+
+  .section { margin-bottom: 22px; }
+  .section-title {
+    background: #1a1a2e; color: #fff;
+    padding: 5px 10px; font-size: 11px; font-weight: bold;
+    letter-spacing: .5px; text-transform: uppercase;
+    margin-bottom: 0;
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: #e8e8e8; }
+  th { padding: 5px 8px; text-align: left; font-size: 10px; font-weight: bold; text-transform: uppercase; border: 1px solid #ccc; }
+  td { padding: 5px 8px; border: 1px solid #ddd; font-size: 11px; }
+  tr:nth-child(even) td { background: #f9f9f9; }
+
+  .gpa-row { display: flex; justify-content: flex-end; gap: 30px; margin-top: 6px; font-size: 11px; }
+  .gpa-row span { font-weight: bold; }
+
+  .footer { margin-top: 30px; border-top: 1px solid #ccc; padding-top: 12px; display: flex; justify-content: space-between; font-size: 10px; color: #555; }
+  .sig-line { border-top: 1px solid #000; width: 200px; margin-top: 24px; padding-top: 4px; font-size: 10px; }
+
+  .grade-a  { color: #15803d; font-weight: bold; }
+  .grade-b  { color: #1d4ed8; font-weight: bold; }
+  .grade-c  { color: #b45309; font-weight: bold; }
+
+  .official { text-align: center; margin-top: 20px; font-size: 10px; color: #888; font-style: italic; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Ridge High School</h1>
+  <h2>Official Academic Transcript</h2>
+  <p>268 S. Finley Ave, Basking Ridge, NJ 07920 &nbsp;|&nbsp; (908) 204-2560</p>
+</div>
+
+<div class="info-row">
+  <div class="info-block"><label>Student Name</label><span>Alex J. Rivera</span></div>
+  <div class="info-block"><label>Student ID</label><span>2026-8841</span></div>
+  <div class="info-block"><label>Date of Birth</label><span>September 14, 2010</span></div>
+  <div class="info-block"><label>Counselor</label><span>Ms. D. Hartmann</span></div>
+  <div class="info-block"><label>Transcript Date</label><span>June 10, 2025</span></div>
+  <div class="info-block"><label>Class of</label><span>2028</span></div>
+</div>
+
+<!-- Grade 9 -->
+<div class="section">
+  <div class="section-title">9th Grade &mdash; Academic Year 2024&ndash;2025</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Course Code</th>
+        <th>Course Name</th>
+        <th>Level</th>
+        <th>Credits</th>
+        <th>Final Grade</th>
+        <th>AP Exam</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2100</td>
+        <td>English 9</td>
+        <td>CP</td>
+        <td>5.0</td>
+        <td class="grade-a">A-</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>304H</td>
+        <td>Honors Geometry</td>
+        <td>Honors</td>
+        <td>5.0</td>
+        <td class="grade-b">B+</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>120H</td>
+        <td>Honors Biology</td>
+        <td>Honors</td>
+        <td>6.0</td>
+        <td class="grade-a">A</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>5100</td>
+        <td>Global History 2</td>
+        <td>CP</td>
+        <td>5.0</td>
+        <td class="grade-a">A-</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>4410</td>
+        <td>Spanish I</td>
+        <td>CP</td>
+        <td>5.0</td>
+        <td class="grade-b">B+</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>7402</td>
+        <td>Art Studio</td>
+        <td>CP</td>
+        <td>2.5</td>
+        <td class="grade-a">A</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>6101</td>
+        <td>Financial Literacy</td>
+        <td>CP</td>
+        <td>2.5</td>
+        <td class="grade-a">A-</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="gpa-row">
+    <div>Credits Earned: <span>31.0</span></div>
+    <div>Grade 9 GPA: <span>3.57</span></div>
+  </div>
+</div>
+
+<div class="footer">
+  <div>
+    <div class="sig-line">Registrar Signature</div>
+  </div>
+  <div style="text-align:right;">
+    <div class="sig-line">Principal Signature</div>
+  </div>
+</div>
+
+<div class="official">OFFICIAL TRANSCRIPT — Unauthorized reproduction prohibited &nbsp;|&nbsp; Cumulative GPA: 3.57 &nbsp;|&nbsp; Total Credits: 31.0</div>
+
+</body>
+</html>

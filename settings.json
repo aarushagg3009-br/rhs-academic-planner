@@ -1,0 +1,30 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "editor.formatOnSave": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.rulers": [100]
+  },
+  "json.schemas": [
+    {
+      "fileMatch": ["RHS_POS_*_rules.json"],
+      "url": "./rhs_rules_schema.json"
+    }
+  ],
+  "files.associations": {
+    "*.json": "json"
+  },
+  "terminal.integrated.env.osx": {
+    "RHS_RULES_PATH": "${workspaceFolder}/RHS_POS_2026-2027_rules.json",
+    "RHS_RECOMMENDER_CONFIG": "${workspaceFolder}/recommender_config.json"
+  },
+  "terminal.integrated.env.linux": {
+    "RHS_RULES_PATH": "${workspaceFolder}/RHS_POS_2026-2027_rules.json",
+    "RHS_RECOMMENDER_CONFIG": "${workspaceFolder}/recommender_config.json"
+  },
+  "terminal.integrated.env.windows": {
+    "RHS_RULES_PATH": "${workspaceFolder}/RHS_POS_2026-2027_rules.json",
+    "RHS_RECOMMENDER_CONFIG": "${workspaceFolder}/recommender_config.json"
+  }
+}

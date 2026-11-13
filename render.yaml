@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: rhs-academic-planner
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn recommender_api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: APP_API_KEY
+        sync: false
+      - key: RHS_RULES_PATH
+        value: ./RHS_POS_2026-2027_rules.json
+      - key: RHS_RECOMMENDER_CONFIG
+        value: ./recommender_config.json

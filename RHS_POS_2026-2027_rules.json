@@ -1,0 +1,1761 @@
+{
+  "meta": {
+    "school": "Ridge High School",
+    "source": "Program of Studies 2026-2027",
+    "ceeb": "310050",
+    "generated": "2026-05-28",
+    "note": "Authoritative prerequisite source. Update annually from official POS."
+  },
+
+  "grade_scale": {
+    "A+": 4.3, "A": 4.0, "A-": 3.7,
+    "B+": 3.3, "B": 3.0, "B-": 2.7,
+    "C+": 2.3, "C": 2.0, "C-": 1.7,
+    "D+": 1.3, "D": 1.0, "D-": 0.7,
+    "F": 0.0,
+    "passing_threshold": 1.7
+  },
+
+  "course_groups": {
+    "biology": ["120C", "120M", "120H"],
+    "enriched_or_honors_biology": ["120M", "120H"],
+    "chemistry": ["130C", "130M", "130H"],
+    "enriched_or_honors_chemistry": ["130M", "130H"],
+    "physics": ["140C", "140M", "140H", "140A"],
+    "any_physics": ["140C", "140M", "140H", "140A"],
+    "honors_or_ap_physics1": ["140H", "140A"],
+    "ap_physics_1_or_honors_physics": ["140H", "140A"],
+    "any_science_honors_or_ap": ["120H", "130H", "140H", "120A", "130A", "132A", "140A", "142A", "144A"],
+    "any_science_enriched_or_higher": ["120M", "130M", "140M", "120H", "130H", "140H", "120A", "130A", "132A", "140A", "142A", "144A"],
+    "geometry_or_higher": ["3040", "3045", "304H", "3060", "3065", "306H", "3070", "3400", "308H", "3440", "310A", "311A"],
+    "algebra2_or_higher": ["3060", "3065", "306H", "3070", "3400", "308H", "3440", "310A", "311A"],
+    "precalc_or_higher": ["3400", "308H", "3440", "310A", "311A"],
+    "honors_precalc_or_higher": ["308H", "310A", "311A"],
+    "ap_calc_ab_or_bc": ["310A", "311A"],
+    "english_9": ["2100", "210H"],
+    "english_10": ["2200", "220H"],
+    "english_11": ["2300", "230H", "230A"],
+    "honors_or_ap_english_10": ["220H"],
+    "honors_or_ap_english_11": ["230H", "230A"],
+    "anatomy_physiology": ["1650", "165H"],
+    "cp_anatomy": ["1650"],
+    "honors_anatomy": ["165H"],
+    "global_history_2": ["5100", "510H"],
+    "us_history": ["5200", "520H", "540A"],
+    "us_gov_econ": ["5320", "532H", "542A"],
+    "required_ss_cp": ["5100", "5200", "5320"],
+    "required_ss_honors_ap": ["510H", "520H", "540A", "532H", "542A"],
+    "latin_3": ["4330", "433H"],
+    "latin_honors_lit": ["430H"],
+    "ap_seminar": ["250A"]
+  },
+
+  "scheduling_rules": {
+    "ap_limits_by_grade": {"9": 0, "10": 2, "11": null, "12": null},
+    "study_hall_triggers": ["120A", "130A", "132A", "140A", "142A", "144A"],
+    "max_study_halls_per_year": 1,
+    "ap_capstone": {
+      "step1": {"grade": 10, "course": "250A"},
+      "step2": {"grade": 11, "course": "260A", "requires_exam": "250A"}
+    },
+    "terminal_conversions": {
+      "311A": "math_slot_becomes_elective",
+      "548A": "social_studies_slot_becomes_elective"
+    }
+  },
+
+  "graduation_requirements": {
+    "english": {"years": 4, "credits": 20},
+    "math": {"min_credits": 15},
+    "science": {"min_credits": 15, "required_subjects": ["biology", "chemistry", "physics"]},
+    "social_studies": {"required": ["global_history_2", "us_history", "us_gov_econ"]},
+    "world_language": {"consecutive_years": 2, "min_credits": 10},
+    "visual_performing_arts": {"min_credits": 5},
+    "career_education_21c": {"min_credits": 5},
+    "financial_literacy": {"min_credits": 2.5, "courses": ["6101", "611H"]},
+    "pe_health": {"credits_per_year": 3.75},
+    "total_credits": 120
+  },
+
+  "courses": [
+
+    {
+      "course_code": "120C",
+      "name": "CP Biology",
+      "department": "Science",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["biology_requirement"]}
+    },
+    {
+      "course_code": "120M",
+      "name": "Enriched Biology",
+      "department": "Science",
+      "level": "Enriched",
+      "credits": 6,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["biology_requirement"]}
+    },
+    {
+      "course_code": "120H",
+      "name": "Honors Biology",
+      "department": "Science",
+      "level": "Honors",
+      "credits": 6,
+      "grade_levels": [9],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["SCI8"], "min_gpa": 3.7, "label": "A-"},
+      "constraints": {"summer_work": true, "fulfills": ["biology_requirement"]}
+    },
+    {
+      "course_code": "130C",
+      "name": "CP Chemistry",
+      "department": "Science",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed_group", "group": "biology", "group_label": "Biology"},
+      "constraints": {"fulfills": ["chemistry_requirement"]}
+    },
+    {
+      "course_code": "130M",
+      "name": "Enriched Chemistry",
+      "department": "Science",
+      "level": "Enriched",
+      "credits": 6,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {"type": "completed_group", "group": "biology", "group_label": "Biology"},
+          {"type": "completed", "course_codes": ["3020"], "label": "Algebra I"}
+        ]
+      },
+      "constraints": {"fulfills": ["chemistry_requirement"]}
+    },
+    {
+      "course_code": "130H",
+      "name": "Honors Chemistry",
+      "department": "Science",
+      "level": "Honors",
+      "credits": 6,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {
+            "type": "any_of",
+            "conditions": [
+              {"type": "min_grade", "course_codes": ["120M"], "min_gpa": 3.7, "label": "A-"},
+              {"type": "min_grade", "course_codes": ["120H"], "min_gpa": 2.7, "label": "B-"}
+            ]
+          },
+          {"type": "concurrent_group", "group": "geometry_or_higher", "group_label": "Geometry or higher"}
+        ]
+      },
+      "constraints": {"summer_work": true, "fulfills": ["chemistry_requirement"]}
+    },
+    {
+      "course_code": "140C",
+      "name": "CP Physics",
+      "department": "Science",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed_group", "group": "chemistry", "group_label": "Chemistry"},
+      "constraints": {"fulfills": ["physics_requirement"]}
+    },
+    {
+      "course_code": "140M",
+      "name": "Enriched Physics",
+      "department": "Science",
+      "level": "Enriched",
+      "credits": 6,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {"type": "completed_group", "group": "chemistry", "group_label": "Chemistry"},
+          {"type": "completed", "course_codes": ["3040", "3045", "304H"], "label": "Geometry"}
+        ]
+      },
+      "constraints": {"fulfills": ["physics_requirement"]}
+    },
+    {
+      "course_code": "140H",
+      "name": "Honors Physics",
+      "department": "Science",
+      "level": "Honors",
+      "credits": 6,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {
+            "type": "any_of",
+            "conditions": [
+              {"type": "min_grade", "course_codes": ["130M"], "min_gpa": 3.7, "label": "A-"},
+              {"type": "min_grade", "course_codes": ["130H"], "min_gpa": 2.7, "label": "B-"}
+            ]
+          },
+          {"type": "concurrent_group", "group": "algebra2_or_higher", "group_label": "Algebra II or higher"}
+        ]
+      },
+      "constraints": {"summer_work": true, "fulfills": ["physics_requirement"]}
+    },
+    {
+      "course_code": "140A",
+      "name": "AP Physics 1",
+      "department": "Science",
+      "level": "AP",
+      "credits": 7,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {
+            "type": "any_of",
+            "conditions": [
+              {"type": "min_grade", "course_codes": ["130M"], "min_gpa": 3.7, "label": "A-"},
+              {"type": "min_grade", "course_codes": ["130H"], "min_gpa": 2.7, "label": "B-"}
+            ]
+          },
+          {"type": "concurrent_group", "group": "precalc_or_higher", "group_label": "Precalculus or higher"}
+        ]
+      },
+      "constraints": {"requires_study_hall": true, "summer_work": true, "fulfills": ["physics_requirement"]}
+    },
+    {
+      "course_code": "120A",
+      "name": "AP Biology",
+      "department": "Science",
+      "level": "AP",
+      "credits": 7,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {"type": "min_grade_group", "group": "any_science_enriched_or_higher", "min_gpa": 2.7, "label": "B-", "group_label": "preceding Honors/AP science"},
+          {"type": "completed_group", "group": "enriched_or_honors_biology", "group_label": "Enriched or Honors Biology"},
+          {"type": "completed_group", "group": "enriched_or_honors_chemistry", "group_label": "Enriched or Honors Chemistry"}
+        ]
+      },
+      "constraints": {"requires_study_hall": true, "summer_work": true}
+    },
+    {
+      "course_code": "130A",
+      "name": "AP Chemistry",
+      "department": "Science",
+      "level": "AP",
+      "credits": 7,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {"type": "min_grade_group", "group": "any_science_enriched_or_higher", "min_gpa": 2.7, "label": "B-", "group_label": "preceding Honors/AP science"},
+          {"type": "completed_group", "group": "enriched_or_honors_biology", "group_label": "Enriched or Honors Biology"},
+          {"type": "completed_group", "group": "enriched_or_honors_chemistry", "group_label": "Enriched or Honors Chemistry"},
+          {"type": "concurrent_group", "group": "precalc_or_higher", "group_label": "Precalculus or higher"}
+        ]
+      },
+      "constraints": {"requires_study_hall": true, "summer_work": true}
+    },
+    {
+      "course_code": "132A",
+      "name": "AP Environmental Science",
+      "department": "Science",
+      "level": "AP",
+      "credits": 7,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {"type": "min_grade_group", "group": "any_science_enriched_or_higher", "min_gpa": 2.7, "label": "B-", "group_label": "preceding Honors/AP science"},
+          {"type": "completed_group", "group": "enriched_or_honors_biology", "group_label": "Enriched or Honors Biology"},
+          {"type": "completed_group", "group": "enriched_or_honors_chemistry", "group_label": "Enriched or Honors Chemistry"}
+        ]
+      },
+      "constraints": {"requires_study_hall": true, "summer_work": true}
+    },
+    {
+      "course_code": "1402",
+      "name": "Enriched Environmental Science",
+      "department": "Science",
+      "level": "Enriched",
+      "credits": 6,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {"type": "completed_group", "group": "biology", "group_label": "Biology"},
+          {"type": "completed_group", "group": "chemistry", "group_label": "Chemistry"},
+          {"type": "concurrent_group", "group": "any_physics", "group_label": "any Physics (concurrent or completed)"}
+        ]
+      }
+    },
+    {
+      "course_code": "142A",
+      "name": "AP Physics 2",
+      "department": "Science",
+      "level": "AP",
+      "credits": 7,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {
+            "type": "any_of",
+            "conditions": [
+              {"type": "min_grade_group", "group": "honors_or_ap_physics1", "min_gpa": 2.7, "label": "B-", "group_label": "Honors or AP Physics 1"},
+              {"type": "min_grade", "course_codes": ["140M"], "min_gpa": 3.7, "label": "A-"}
+            ]
+          },
+          {"type": "concurrent_group", "group": "precalc_or_higher", "group_label": "Precalculus or higher"}
+        ]
+      },
+      "constraints": {"requires_study_hall": true, "summer_work": true}
+    },
+    {
+      "course_code": "144A",
+      "name": "AP Physics C",
+      "department": "Science",
+      "level": "AP",
+      "credits": 7,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {"type": "min_grade_group", "group": "ap_physics_1_or_honors_physics", "min_gpa": 2.7, "label": "B-", "group_label": "AP Physics 1 or Honors Physics"},
+          {"type": "concurrent_group", "group": "ap_calc_ab_or_bc", "group_label": "AP Calculus AB or BC (REQUIRED corequisite)"}
+        ]
+      },
+      "constraints": {"requires_study_hall": true, "summer_work": true}
+    },
+    {
+      "course_code": "1620",
+      "name": "CP Forensic Science",
+      "department": "Science",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {"type": "completed_group", "group": "biology", "group_label": "Biology"},
+          {"type": "completed_group", "group": "chemistry", "group_label": "Chemistry"},
+          {"type": "completed_group", "group": "physics", "group_label": "Physics"}
+        ]
+      }
+    },
+    {
+      "course_code": "1650",
+      "name": "CP Anatomy & Physiology",
+      "department": "Science",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "concurrent_group", "group": "enriched_or_honors_biology", "group_label": "Enriched/Honors Biology (gr 9-11 only)"},
+          {"type": "all_of", "conditions": [
+            {"type": "completed_group", "group": "biology", "group_label": "Biology"},
+            {"type": "completed_group", "group": "chemistry", "group_label": "Chemistry"},
+            {"type": "completed_group", "group": "physics", "group_label": "Physics"}
+          ]}
+        ]
+      },
+      "constraints": {"fulfills": ["career_education_21c"]}
+    },
+    {
+      "course_code": "165H",
+      "name": "Honors Anatomy & Physiology",
+      "department": "Science",
+      "level": "Honors",
+      "credits": 6,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["120M"], "min_gpa": 3.7, "label": "A-"},
+          {"type": "min_grade", "course_codes": ["120H"], "min_gpa": 2.7, "label": "B-"},
+          {"type": "min_grade_group", "group": "any_science_enriched_or_higher", "min_gpa": 3.7, "label": "A-", "group_label": "preceding Enriched science"},
+          {"type": "min_grade_group", "group": "any_science_honors_or_ap", "min_gpa": 2.7, "label": "B-", "group_label": "preceding Honors/AP science"}
+        ]
+      },
+      "constraints": {"fulfills": ["career_education_21c"]}
+    },
+    {
+      "course_code": "1660",
+      "name": "CP Kinesiology",
+      "department": "Science",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed_group", "group": "anatomy_physiology", "group_label": "Anatomy & Physiology"},
+      "constraints": {"fulfills": ["career_education_21c"]}
+    },
+    {
+      "course_code": "160H",
+      "name": "Honors Kinesiology",
+      "department": "Science",
+      "level": "Honors",
+      "credits": 6,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["1650"], "min_gpa": 3.7, "label": "A-"},
+          {"type": "min_grade", "course_codes": ["165H"], "min_gpa": 2.7, "label": "B-"}
+        ]
+      },
+      "constraints": {"fulfills": ["career_education_21c"]}
+    },
+
+    {
+      "course_code": "2100",
+      "name": "English 9",
+      "department": "English Language Arts",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"summer_work": true, "fulfills": ["english"]}
+    },
+    {
+      "course_code": "210H",
+      "name": "Honors English 9",
+      "department": "English Language Arts",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [9],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["ENG8", "LA8"], "min_gpa": 3.7, "label": "A-"},
+      "constraints": {"summer_work": true, "fulfills": ["english"]}
+    },
+    {
+      "course_code": "2200",
+      "name": "English 10: American Literature",
+      "department": "English Language Arts",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [10],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed_group", "group": "english_9", "group_label": "any English 9 course"},
+      "constraints": {"summer_work": true, "fulfills": ["english"]}
+    },
+    {
+      "course_code": "220H",
+      "name": "Honors English 10: American Literature",
+      "department": "English Language Arts",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [10],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["210H"], "min_gpa": 2.7, "label": "B-"},
+          {"type": "min_grade", "course_codes": ["2100"], "min_gpa": 3.7, "label": "A-"}
+        ]
+      },
+      "constraints": {"summer_work": true, "fulfills": ["english"]}
+    },
+    {
+      "course_code": "2300",
+      "name": "English 11: British Literature",
+      "department": "English Language Arts",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [11],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed_group", "group": "english_10", "group_label": "any English 10 course"},
+      "constraints": {"summer_work": true, "fulfills": ["english"]}
+    },
+    {
+      "course_code": "230H",
+      "name": "Honors English 11: British Literature",
+      "department": "English Language Arts",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [11],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["220H"], "min_gpa": 2.7, "label": "B-"},
+          {"type": "min_grade", "course_codes": ["2200"], "min_gpa": 3.7, "label": "A-"}
+        ]
+      },
+      "constraints": {"summer_work": true, "fulfills": ["english"]}
+    },
+    {
+      "course_code": "230A",
+      "name": "AP English 11: Language & Composition",
+      "department": "English Language Arts",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [11],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["220H"], "min_gpa": 3.0, "label": "B"},
+          {"type": "min_grade", "course_codes": ["2200"], "min_gpa": 4.0, "label": "A"}
+        ]
+      },
+      "constraints": {"summer_work": true, "fulfills": ["english"]}
+    },
+    {
+      "course_code": "2402",
+      "name": "English 12: Seminar in Composition & Literature",
+      "department": "English Language Arts",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [12],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed_group", "group": "english_11", "group_label": "any English 11 course"},
+      "constraints": {"summer_work": true, "fulfills": ["english"], "dual_enrollment": "RVCC"}
+    },
+    {
+      "course_code": "240H",
+      "name": "Honors English 12: World Literature",
+      "department": "English Language Arts",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade_group", "group": "honors_or_ap_english_11", "min_gpa": 2.7, "label": "B-", "group_label": "Honors or AP English 11"},
+          {"type": "min_grade", "course_codes": ["2300"], "min_gpa": 3.7, "label": "A-"}
+        ]
+      },
+      "constraints": {"summer_work": true, "fulfills": ["english"], "dual_enrollment": "RVCC"}
+    },
+    {
+      "course_code": "242A",
+      "name": "AP English 12: Literature & Composition",
+      "department": "English Language Arts",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["230A"], "min_gpa": 2.7, "label": "B-"},
+          {"type": "min_grade", "course_codes": ["230H"], "min_gpa": 3.0, "label": "B"},
+          {"type": "min_grade", "course_codes": ["2300"], "min_gpa": 4.0, "label": "A"}
+        ]
+      },
+      "constraints": {"summer_work": true, "fulfills": ["english"], "dual_enrollment": "RVCC"}
+    },
+    {
+      "course_code": "250A",
+      "name": "AP Seminar",
+      "department": "English Language Arts",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade_group", "group": "honors_or_ap_english_10", "min_gpa": 2.7, "label": "B-", "group_label": "prior Honors/AP English"},
+          {"type": "min_grade_group", "group": "english_9", "min_gpa": 3.7, "label": "A-", "group_label": "prior CP English"}
+        ]
+      },
+      "constraints": {"summer_work": true, "note": "Must take AP Seminar exam in May to qualify for AP Research"}
+    },
+    {
+      "course_code": "260A",
+      "name": "AP Research",
+      "department": "English Language Arts",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {"type": "exam_taken", "course_codes": ["250A"], "label": "AP Seminar exam must have been taken"},
+          {
+            "type": "any_of",
+            "conditions": [
+              {"type": "min_grade_group", "group": "honors_or_ap_english_11", "min_gpa": 2.7, "label": "B-", "group_label": "prior Honors/AP English"},
+              {"type": "min_grade_group", "group": "english_10", "min_gpa": 3.7, "label": "A-", "group_label": "prior CP English"}
+            ]
+          }
+        ]
+      },
+      "constraints": {"summer_work": true, "fulfills": ["career_education_21c"]}
+    },
+    {
+      "course_code": "2523",
+      "name": "Communication for Classroom, College & Career",
+      "department": "English Language Arts",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["career_education_21c"], "dual_enrollment": "Seton Hall"}
+    },
+    {
+      "course_code": "2525",
+      "name": "Creative Writing",
+      "department": "English Language Arts",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "min_grade_group", "group": "english_9", "min_gpa": 3.0, "label": "B", "group_label": "any prior English course"}
+    },
+    {
+      "course_code": "2529",
+      "name": "Speech and Debate",
+      "department": "English Language Arts",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"}
+    },
+
+    {
+      "course_code": "3020",
+      "name": "Algebra I",
+      "department": "Mathematics",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "3040",
+      "name": "CP Geometry",
+      "department": "Mathematics",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed", "course_codes": ["3020"], "label": "Algebra I"},
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "3045",
+      "name": "Enriched Geometry",
+      "department": "Mathematics",
+      "level": "Enriched",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["3020"], "min_gpa": 2.7, "label": "B-"},
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "304H",
+      "name": "Honors Geometry",
+      "department": "Mathematics",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [9],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["ALGEBRA_I_8"], "min_gpa": 4.0, "label": "A (or B- in Accelerated Algebra I)"},
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "3060",
+      "name": "CP Algebra II",
+      "department": "Mathematics",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {"type": "completed", "course_codes": ["3020"], "label": "Algebra I"},
+          {"type": "completed_group", "group": "geometry_or_higher", "group_label": "Geometry"}
+        ]
+      },
+      "constraints": {"fulfills": ["math"], "note": "Does NOT prepare for CP Precalculus; take Algebra III/Trig next"}
+    },
+    {
+      "course_code": "3065",
+      "name": "Enriched Algebra II",
+      "department": "Mathematics",
+      "level": "Enriched",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["3020"], "min_gpa": 2.7, "label": "B-"},
+          {"type": "min_grade_group", "group": "geometry_or_higher", "min_gpa": 2.7, "label": "B-", "group_label": "Geometry"}
+        ]
+      },
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "306H",
+      "name": "Honors Algebra II",
+      "department": "Mathematics",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [9, 10],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade_group", "group": "geometry_or_higher", "min_gpa": 2.7, "label": "B- in Honors Geometry (or A+ in CP Geometry)"},
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "3070",
+      "name": "Algebra III / Trigonometry",
+      "department": "Mathematics",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed_group", "group": "algebra2_or_higher", "group_label": "CP or Enriched Algebra II"},
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "3400",
+      "name": "Precalculus",
+      "department": "Mathematics",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["3065"], "min_gpa": 1.7, "label": "C-"},
+          {"type": "min_grade", "course_codes": ["3060"], "min_gpa": 2.7, "label": "B-"}
+        ]
+      },
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "308H",
+      "name": "Honors Precalculus",
+      "department": "Mathematics",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["306H"], "min_gpa": 2.7, "label": "B-"},
+          {"type": "min_grade", "course_codes": ["3065"], "min_gpa": 4.3, "label": "A+"}
+        ]
+      },
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "3440",
+      "name": "Calculus",
+      "department": "Mathematics",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["3400"], "min_gpa": 1.7, "label": "C-"},
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "310A",
+      "name": "AP Calculus AB",
+      "department": "Mathematics",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["308H"], "min_gpa": 2.7, "label": "B-"},
+          {"type": "min_grade", "course_codes": ["3400"], "min_gpa": 4.3, "label": "A+"},
+          {"type": "min_grade", "course_codes": ["3440"], "min_gpa": 4.0, "label": "A"}
+        ]
+      },
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "311A",
+      "name": "AP Calculus BC",
+      "department": "Mathematics",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["310A"], "min_gpa": 2.7, "label": "B-"},
+          {"type": "min_grade", "course_codes": ["308H"], "min_gpa": 4.0, "label": "A"}
+        ]
+      },
+      "constraints": {"fulfills": ["math"], "note": "Highest math course at RHS"}
+    },
+    {
+      "course_code": "3120",
+      "name": "Statistics",
+      "department": "Mathematics",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed_group", "group": "algebra2_or_higher", "group_label": "Algebra II"},
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "312A",
+      "name": "AP Statistics",
+      "department": "Mathematics",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade_group", "group": "precalc_or_higher", "min_gpa": 4.0, "label": "A", "group_label": "CP Precalculus, CP Calculus, or CP Statistics"},
+          {"type": "min_grade_group", "group": "honors_precalc_or_higher", "min_gpa": 2.7, "label": "B-", "group_label": "Honors Precalculus, AP Calc AB, or AP Calc BC"},
+          {"type": "min_grade", "course_codes": ["3120"], "min_gpa": 4.0, "label": "A"}
+        ]
+      },
+      "constraints": {"fulfills": ["math"]}
+    },
+    {
+      "course_code": "3700",
+      "name": "Introduction to Computer Programming",
+      "department": "Mathematics",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["career_education_21c"]}
+    },
+    {
+      "course_code": "3780",
+      "name": "Computer Science Principles",
+      "department": "Mathematics",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["career_education_21c"]}
+    },
+    {
+      "course_code": "378A",
+      "name": "AP Computer Science A",
+      "department": "Mathematics",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade_group", "group": "algebra2_or_higher", "min_gpa": 3.7, "label": "A-", "group_label": "recent Honors/AP math (B-)"},
+          {"type": "min_grade", "course_codes": ["3780"], "min_gpa": 3.0, "label": "B"},
+          {"type": "min_grade", "course_codes": ["3700"], "min_gpa": 3.0, "label": "B"}
+        ]
+      }
+    },
+    {
+      "course_code": "370H",
+      "name": "Honors Advanced Topics in Computing",
+      "department": "Mathematics",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["378A"], "min_gpa": 3.7, "label": "A-"}
+    },
+
+    {
+      "course_code": "5100",
+      "name": "Global History 2",
+      "department": "Social Studies",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9],
+      "duration": "full_year",
+      "prerequisites": {"type": "grade_level", "min": 9, "max": 9},
+      "constraints": {"fulfills": ["social_studies_global"]}
+    },
+    {
+      "course_code": "510H",
+      "name": "Honors Global History 2",
+      "department": "Social Studies",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [9],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["SS8"], "min_gpa": 3.7, "label": "A-"},
+      "constraints": {"fulfills": ["social_studies_global"]}
+    },
+    {
+      "course_code": "5200",
+      "name": "U.S. History",
+      "department": "Social Studies",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [10],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed_group", "group": "global_history_2", "group_label": "Global History 2"},
+      "constraints": {"fulfills": ["social_studies_us_history"]}
+    },
+    {
+      "course_code": "520H",
+      "name": "Honors U.S. History",
+      "department": "Social Studies",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [10],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["5100"], "min_gpa": 3.7, "label": "A-"},
+          {"type": "min_grade", "course_codes": ["510H"], "min_gpa": 2.7, "label": "B-"}
+        ]
+      },
+      "constraints": {"fulfills": ["social_studies_us_history"]}
+    },
+    {
+      "course_code": "540A",
+      "name": "AP United States History",
+      "department": "Social Studies",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["510H"], "min_gpa": 3.7, "label": "A- in Honors Global History 2"},
+          {"type": "min_grade", "course_codes": ["5100"], "min_gpa": 4.3, "label": "A+ in CP Global History 2 (w/ teacher rec)"},
+          {
+            "type": "all_of",
+            "conditions": [
+              {"type": "grade_level", "min": 11, "max": 12},
+              {"type": "min_grade_group", "group": "required_ss_cp", "min_gpa": 3.7, "label": "A-", "group_label": "prior required CP Social Studies"}
+            ]
+          },
+          {
+            "type": "all_of",
+            "conditions": [
+              {"type": "grade_level", "min": 11, "max": 12},
+              {"type": "min_grade_group", "group": "required_ss_honors_ap", "min_gpa": 2.7, "label": "B-", "group_label": "prior required Honors/AP Social Studies"}
+            ]
+          }
+        ]
+      },
+      "constraints": {"summer_work": true, "fulfills": ["social_studies_us_history"]}
+    },
+    {
+      "course_code": "5320",
+      "name": "History of U.S. Government & Economics",
+      "department": "Social Studies",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [11],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed_group", "group": "us_history", "group_label": "U.S. History (any level)"},
+      "constraints": {"fulfills": ["social_studies_gov"]}
+    },
+    {
+      "course_code": "532H",
+      "name": "Honors History of U.S. Government & Economics",
+      "department": "Social Studies",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [11],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["5200"], "min_gpa": 3.7, "label": "A-"},
+          {"type": "min_grade", "course_codes": ["520H"], "min_gpa": 2.7, "label": "B-"},
+          {"type": "min_grade", "course_codes": ["540A"], "min_gpa": 2.7, "label": "B-"}
+        ]
+      },
+      "constraints": {"fulfills": ["social_studies_gov"]}
+    },
+    {
+      "course_code": "542A",
+      "name": "AP U.S. Government & Politics / Economics",
+      "department": "Social Studies",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [11],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["5200"], "min_gpa": 4.0, "label": "A"},
+          {"type": "min_grade", "course_codes": ["520H"], "min_gpa": 3.0, "label": "B"},
+          {"type": "min_grade", "course_codes": ["540A"], "min_gpa": 2.7, "label": "B-"}
+        ]
+      },
+      "constraints": {"summer_work": true, "fulfills": ["social_studies_gov"]}
+    },
+    {
+      "course_code": "548A",
+      "name": "AP Economics",
+      "department": "Social Studies",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade_group", "group": "required_ss_cp", "min_gpa": 3.7, "label": "A-", "group_label": "prior required CP Social Studies"},
+          {"type": "min_grade_group", "group": "required_ss_honors_ap", "min_gpa": 2.7, "label": "B-", "group_label": "prior required Honors/AP Social Studies"}
+        ]
+      },
+      "constraints": {"summer_work": true, "note": "Counts as TWO AP exams: AP Micro + AP Macro. Does NOT fulfill Financial Literacy requirement."}
+    },
+    {
+      "course_code": "544A",
+      "name": "AP European History",
+      "department": "Social Studies",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["510H"], "min_gpa": 3.7, "label": "A- in Honors Global Hist 2 (Grade 10 only)"},
+          {
+            "type": "all_of",
+            "conditions": [
+              {"type": "grade_level", "min": 11, "max": 12},
+              {"type": "min_grade_group", "group": "required_ss_cp", "min_gpa": 3.7, "label": "A-", "group_label": "prior required CP Social Studies"}
+            ]
+          },
+          {
+            "type": "all_of",
+            "conditions": [
+              {"type": "grade_level", "min": 11, "max": 12},
+              {"type": "min_grade_group", "group": "required_ss_honors_ap", "min_gpa": 2.7, "label": "B-", "group_label": "prior required Honors/AP Social Studies"}
+            ]
+          }
+        ]
+      },
+      "constraints": {"summer_work": true}
+    },
+    {
+      "course_code": "546A",
+      "name": "AP Human Geography",
+      "department": "Social Studies",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["510H"], "min_gpa": 3.7, "label": "A- in Honors Global Hist 2 (Grade 10 only)"},
+          {
+            "type": "all_of",
+            "conditions": [
+              {"type": "grade_level", "min": 11, "max": 12},
+              {"type": "min_grade_group", "group": "required_ss_cp", "min_gpa": 3.7, "label": "A-", "group_label": "prior required CP Social Studies"}
+            ]
+          },
+          {
+            "type": "all_of",
+            "conditions": [
+              {"type": "grade_level", "min": 11, "max": 12},
+              {"type": "min_grade_group", "group": "required_ss_honors_ap", "min_gpa": 2.7, "label": "B-", "group_label": "prior required Honors/AP Social Studies"}
+            ]
+          }
+        ]
+      },
+      "constraints": {"summer_work": true}
+    },
+    {
+      "course_code": "555A",
+      "name": "AP Psychology",
+      "department": "Social Studies",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade_group", "group": "required_ss_cp", "min_gpa": 3.7, "label": "A-", "group_label": "prior required CP SS"},
+          {"type": "min_grade_group", "group": "required_ss_honors_ap", "min_gpa": 2.7, "label": "B-", "group_label": "prior required Honors/AP SS"},
+          {"type": "min_grade", "course_codes": ["5553"], "min_gpa": 3.3, "label": "B+"}
+        ]
+      },
+      "constraints": {"summer_work": true, "dual_enrollment": "William Paterson University"}
+    },
+    {
+      "course_code": "5400",
+      "name": "Current Issues in Contemporary America",
+      "department": "Social Studies",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "all_of",
+        "conditions": [
+          {"type": "completed_group", "group": "global_history_2"},
+          {"type": "completed_group", "group": "us_history"},
+          {"type": "completed_group", "group": "us_gov_econ"}
+        ]
+      }
+    },
+    {
+      "course_code": "540H",
+      "name": "Honors Current Issues in Contemporary America",
+      "department": "Social Studies",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["5320"], "min_gpa": 3.7, "label": "A-"},
+          {"type": "min_grade_group", "group": "us_gov_econ", "min_gpa": 2.7, "label": "B-", "group_label": "Honors/AP Gov"}
+        ]
+      }
+    },
+    {
+      "course_code": "5553",
+      "name": "Psychology",
+      "department": "Social Studies",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"},
+      "constraints": {"note": "B+ or better qualifies for AP Psychology"}
+    },
+    {
+      "course_code": "5551",
+      "name": "Sociology",
+      "department": "Social Studies",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"}
+    },
+    {
+      "course_code": "5563",
+      "name": "Ethics: What's the Right Thing to Do?",
+      "department": "Social Studies",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"}
+    },
+
+    {
+      "course_code": "4310",
+      "name": "Latin I",
+      "department": "World Languages",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "4320",
+      "name": "Latin II",
+      "department": "World Languages",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["4310", "LATIN_8"], "min_gpa": 1.7, "label": "C-"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "432H",
+      "name": "Honors Latin II",
+      "department": "World Languages",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["4310", "LATIN_8"], "min_gpa": 3.7, "label": "A-"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "4330",
+      "name": "Latin III",
+      "department": "World Languages",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["4320", "432H"], "min_gpa": 1.7, "label": "C-"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "433H",
+      "name": "Honors Latin III",
+      "department": "World Languages",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["4320"], "min_gpa": 3.7, "label": "A-"},
+          {"type": "min_grade", "course_codes": ["432H"], "min_gpa": 2.7, "label": "B-"}
+        ]
+      },
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "430H",
+      "name": "Honors Latin Literature",
+      "department": "World Languages",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["4330"], "min_gpa": 3.7, "label": "A-"},
+          {"type": "min_grade", "course_codes": ["433H"], "min_gpa": 2.7, "label": "B-"},
+          {"type": "completed", "course_codes": ["436A"], "label": "AP Latin completed"}
+        ]
+      },
+      "constraints": {"biannual": true, "biannual_parity": "even", "fulfills": ["world_language"],
+        "note": "Runs even school-year starts (2026-27 YES, 2027-28 NO, 2028-29 YES)"}
+    },
+    {
+      "course_code": "436A",
+      "name": "AP Latin",
+      "department": "World Languages",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["4330"], "min_gpa": 3.7, "label": "A-"},
+          {"type": "min_grade_group", "group": "latin_honors_lit", "min_gpa": 2.7, "label": "B-", "group_label": "Honors Latin III or Honors Latin Literature"}
+        ]
+      },
+      "constraints": {"biannual": true, "biannual_parity": "odd", "summer_work": true, "fulfills": ["world_language"],
+        "note": "Runs odd school-year starts (2026-27 NO, 2027-28 YES, 2028-29 NO)"}
+    },
+
+    {
+      "course_code": "4410",
+      "name": "Spanish I",
+      "department": "World Languages",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "4420",
+      "name": "Spanish II",
+      "department": "World Languages",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["4410", "SPAN_8"], "min_gpa": 1.7, "label": "C-"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "442H",
+      "name": "Honors Spanish II",
+      "department": "World Languages",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["4410", "SPAN_8"], "min_gpa": 3.7, "label": "A-"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "4430",
+      "name": "Spanish III",
+      "department": "World Languages",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["4420", "442H"], "min_gpa": 1.7, "label": "C-"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "443H",
+      "name": "Honors Spanish III",
+      "department": "World Languages",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["4420"], "min_gpa": 3.7, "label": "A-"},
+          {"type": "min_grade", "course_codes": ["442H"], "min_gpa": 2.7, "label": "B-"}
+        ]
+      },
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "444H",
+      "name": "Honors Spanish IV",
+      "department": "World Languages",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["4430"], "min_gpa": 3.7, "label": "A-"},
+          {"type": "min_grade", "course_codes": ["443H"], "min_gpa": 2.7, "label": "B-"}
+        ]
+      },
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "446A",
+      "name": "AP Spanish Language and Culture",
+      "department": "World Languages",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["444H"], "min_gpa": 2.7, "label": "B-"},
+      "constraints": {"summer_work": true, "fulfills": ["world_language"]}
+    },
+
+    {
+      "course_code": "4110",
+      "name": "French I",
+      "department": "World Languages",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "4120",
+      "name": "French II",
+      "department": "World Languages",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["4110", "FR_8"], "min_gpa": 1.7, "label": "C-"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "412H",
+      "name": "Honors French II",
+      "department": "World Languages",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["4110", "FR_8"], "min_gpa": 3.7, "label": "A-"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "4130",
+      "name": "French III",
+      "department": "World Languages",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["4120", "412H"], "min_gpa": 1.7, "label": "C-"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "413H",
+      "name": "Honors French III",
+      "department": "World Languages",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["4120"], "min_gpa": 3.7, "label": "A-"},
+          {"type": "min_grade", "course_codes": ["412H"], "min_gpa": 2.7, "label": "B-"}
+        ]
+      },
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "414H",
+      "name": "Honors French IV",
+      "department": "World Languages",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {
+        "type": "any_of",
+        "conditions": [
+          {"type": "min_grade", "course_codes": ["4130"], "min_gpa": 3.7, "label": "A-"},
+          {"type": "min_grade", "course_codes": ["413H"], "min_gpa": 2.7, "label": "B-"}
+        ]
+      },
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "416A",
+      "name": "AP French Language and Culture",
+      "department": "World Languages",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["414H"], "min_gpa": 2.7, "label": "B-"},
+      "constraints": {"summer_work": true, "fulfills": ["world_language"]}
+    },
+
+    {
+      "course_code": "4910",
+      "name": "ASL I",
+      "department": "World Languages",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["world_language"], "note": "May not be accepted by all colleges as a world language"}
+    },
+    {
+      "course_code": "4920",
+      "name": "ASL II",
+      "department": "World Languages",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["4910"], "min_gpa": 1.7, "label": "C-"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+    {
+      "course_code": "492H",
+      "name": "Honors ASL II",
+      "department": "World Languages",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["4910"], "min_gpa": 3.7, "label": "A-"},
+      "constraints": {"fulfills": ["world_language"]}
+    },
+
+    {
+      "course_code": "7402",
+      "name": "Art Studio",
+      "department": "Visual Arts",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["visual_performing_arts"]}
+    },
+    {
+      "course_code": "7404",
+      "name": "Advanced Art Studio",
+      "department": "Visual Arts",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed", "course_codes": ["7402"], "label": "Art Studio (or portfolio review)"},
+      "constraints": {"fulfills": ["visual_performing_arts"]}
+    },
+    {
+      "course_code": "740H",
+      "name": "Honors Art Major",
+      "department": "Visual Arts",
+      "level": "Honors",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["7404"], "min_gpa": 3.7, "label": "A- in Advanced Art Studio (or portfolio review)"},
+      "constraints": {"fulfills": ["visual_performing_arts"]}
+    },
+    {
+      "course_code": "742A",
+      "name": "AP Studio Art: Drawing",
+      "department": "Visual Arts",
+      "level": "AP",
+      "credits": 5,
+      "grade_levels": [11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "min_grade", "course_codes": ["740H"], "min_gpa": 2.7, "label": "B- in Honors Art Major (or portfolio review)"},
+      "constraints": {"summer_work": true, "fulfills": ["visual_performing_arts"]}
+    },
+    {
+      "course_code": "7401",
+      "name": "Art Explorer",
+      "department": "Visual Arts",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["visual_performing_arts"]}
+    },
+    {
+      "course_code": "7445",
+      "name": "Photo I: Introduction to Photography",
+      "department": "Visual Arts",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["visual_performing_arts"]}
+    },
+    {
+      "course_code": "7446",
+      "name": "Photo II: Advanced Photographic Techniques",
+      "department": "Visual Arts",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "min_grade", "course_codes": ["7445"], "min_gpa": 3.0, "label": "B (or portfolio review)"},
+      "constraints": {"fulfills": ["visual_performing_arts"]}
+    },
+
+    {
+      "course_code": "7321",
+      "name": "Theater I",
+      "department": "Performing Arts",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["visual_performing_arts"]}
+    },
+    {
+      "course_code": "7474",
+      "name": "Concert Choir",
+      "department": "Performing Arts",
+      "level": "CP",
+      "credits": 6,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["visual_performing_arts"], "note": "Bass voices gr 9-12; treble voices gr 11-12"}
+    },
+    {
+      "course_code": "7490",
+      "name": "Ridge Chorale",
+      "department": "Performing Arts",
+      "level": "CP",
+      "credits": 6,
+      "grade_levels": [9, 10],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["visual_performing_arts"], "note": "Treble voices only"}
+    },
+    {
+      "course_code": "7327",
+      "name": "Cinema Studies: The Art of Film",
+      "department": "Performing Arts",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["visual_performing_arts"]}
+    },
+
+    {
+      "course_code": "6101",
+      "name": "Financial Literacy",
+      "department": "Career Education",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["financial_literacy", "career_education_21c"]}
+    },
+    {
+      "course_code": "610H",
+      "name": "Honors Financial Accounting",
+      "department": "Career Education",
+      "level": "Honors",
+      "credits": 2.5,
+      "grade_levels": [11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "cumulative_gpa", "min_gpa": 3.0, "label": "Cumulative weighted GPA ≥ 3.0"},
+      "constraints": {"dual_enrollment": "RVCC"}
+    },
+    {
+      "course_code": "611H",
+      "name": "Honors Personal Finance",
+      "department": "Career Education",
+      "level": "Honors",
+      "credits": 2.5,
+      "grade_levels": [11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "cumulative_gpa", "min_gpa": 3.0, "label": "Cumulative weighted GPA ≥ 3.0"},
+      "constraints": {"dual_enrollment": "RVCC", "fulfills": ["financial_literacy"]}
+    },
+    {
+      "course_code": "6119",
+      "name": "Entrepreneurship",
+      "department": "Career Education",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"}
+    },
+    {
+      "course_code": "6117",
+      "name": "Sports and Entertainment Marketing",
+      "department": "Career Education",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"}
+    },
+    {
+      "course_code": "6107",
+      "name": "Accounting",
+      "department": "Career Education",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"}
+    },
+    {
+      "course_code": "6127",
+      "name": "Introduction to Law",
+      "department": "Career Education",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"}
+    },
+    {
+      "course_code": "6129",
+      "name": "Law Seminar",
+      "department": "Career Education",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "completed", "course_codes": ["6127"], "label": "Introduction to Law"}
+    },
+    {
+      "course_code": "7428",
+      "name": "CAD I: Introductory Engineering, Design & Prototyping",
+      "department": "Career Education",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "none"},
+      "constraints": {"fulfills": ["career_education_21c"]}
+    },
+    {
+      "course_code": "7429",
+      "name": "CAD II: Advanced Prototyping, Engineering & Manufacturing Design",
+      "department": "Career Education",
+      "level": "CP",
+      "credits": 5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "full_year",
+      "prerequisites": {"type": "completed", "course_codes": ["7428"], "label": "CAD I"},
+      "constraints": {"fulfills": ["career_education_21c"]}
+    },
+    {
+      "course_code": "6145",
+      "name": "Game Design and Development",
+      "department": "Career Education",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"}
+    },
+    {
+      "course_code": "6139",
+      "name": "Internet and Web Design",
+      "department": "Career Education",
+      "level": "CP",
+      "credits": 2.5,
+      "grade_levels": [9, 10, 11, 12],
+      "duration": "one_semester",
+      "prerequisites": {"type": "none"}
+    }
+
+  ]
+}
