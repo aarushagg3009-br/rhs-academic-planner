@@ -518,6 +518,28 @@
     </div>
   </div>
 
+  <!-- ── Feedback ── -->
+  <div id="feedback-section" style="display:none;">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Rate Your Experience</div>
+      </div>
+      <div class="card-body">
+        <p style="font-size:14px;color:var(--g500);margin-bottom:14px;">How helpful was this course plan?</p>
+        <div id="star-row" style="display:flex;gap:4px;margin-bottom:16px;"></div>
+        <div class="fgroup" style="margin-bottom:14px;">
+          <label for="feedback-comment">Comments <span style="font-weight:400;color:var(--g400)">(optional)</span></label>
+          <textarea id="feedback-comment" placeholder="Any suggestions or feedback?"
+            style="width:100%;padding:8px 10px;border:1px solid var(--g300);border-radius:6px;font-size:14px;font-family:inherit;resize:vertical;min-height:70px;transition:border-color .15s,box-shadow .15s;"
+            onfocus="this.style.borderColor='var(--blue)';this.style.boxShadow='0 0 0 3px var(--blue-light)'"
+            onblur="this.style.borderColor='var(--g300)';this.style.boxShadow='none'"></textarea>
+        </div>
+        <button class="btn btn-secondary btn-sm" id="feedback-btn" onclick="submitFeedback()">Submit Feedback</button>
+        <div id="feedback-msg" style="margin-top:10px;"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- ── Results ── -->
   <div id="results" style="display:none;">
     <div class="card">
@@ -553,6 +575,14 @@
   let pdfFiles   = []; // {file: File, status: 'pending'|'parsing'|'ok'|'err', msg: string}
   let apiKey     = sessionStorage.getItem('rhs_api_key') || '';
 
+  // Persistent anonymous ID — stored in localStorage so the same browser always
+  // counts as the same user. Contains no personal information.
+  let userId = localStorage.getItem('rhs_user_id');
+  if (!userId) {
+    userId = crypto.randomUUID();
+    localStorage.setItem('rhs_user_id', userId);
+  }
+
   if (apiKey) document.getElementById('login-overlay').style.display = 'none';
 
   function doLogin() {
@@ -562,6 +592,11 @@
     sessionStorage.setItem('rhs_api_key', key);
     document.getElementById('login-overlay').style.display = 'none';
     document.getElementById('login-err').innerHTML = '';
+    fetch(`${API}/track/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
+      body: JSON.stringify({ user_id: userId }),
+    }).catch(() => {}); // fire-and-forget, never block the UI
   }
 
   function showLogin(errMsg) {
@@ -879,9 +914,57 @@
 
   function reset() {
     document.getElementById('results').style.display = 'none';
+    document.getElementById('feedback-section').style.display = 'none';
     clearErr();
     planData = null;
     activeYear = null;
+  }
+
+  // ── Star rating & feedback ──────────────────────────────────────────────────
+  let selectedRating = 0;
+
+  function renderStars(selected) {
+    document.getElementById('star-row').innerHTML = [1,2,3,4,5].map(n =>
+      `<button onclick="selectRating(${n})" title="${n} star${n>1?'s':''}" style="
+        font-size:32px;background:none;border:none;cursor:pointer;padding:0 3px;
+        color:${n <= selected ? '#f59e0b' : 'var(--g300)'};transition:color .15s;line-height:1;">&#9733;</button>`
+    ).join('');
+  }
+
+  function selectRating(n) {
+    selectedRating = n;
+    renderStars(n);
+  }
+
+  async function submitFeedback() {
+    if (!selectedRating) {
+      document.getElementById('feedback-msg').innerHTML =
+        '<div class="alert alert-err">&#9888;&nbsp;Please select a star rating first.</div>';
+      return;
+    }
+    const btn = document.getElementById('feedback-btn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+    try {
+      const res = await fetch(`${API}/feedback`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
+        body: JSON.stringify({
+          user_id: userId,
+          rating: selectedRating,
+          comment: document.getElementById('feedback-comment').value.trim(),
+        }),
+      });
+      if (!res.ok) throw new Error();
+      document.getElementById('feedback-msg').innerHTML =
+        '<div class="alert alert-ok">&#10003;&nbsp;Thanks for your feedback!</div>';
+      btn.style.display = 'none';
+    } catch {
+      document.getElementById('feedback-msg').innerHTML =
+        '<div class="alert alert-err">&#9888;&nbsp;Could not submit. Please try again.</div>';
+      btn.disabled = false;
+      btn.textContent = 'Submit Feedback';
+    }
   }
 
   function showErr(msg) {
@@ -904,6 +987,15 @@
     const el = document.getElementById('results');
     el.style.display = 'block';
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // Reset and show feedback form
+    selectedRating = 0;
+    document.getElementById('feedback-comment').value = '';
+    document.getElementById('feedback-msg').innerHTML = '';
+    const fbBtn = document.getElementById('feedback-btn');
+    fbBtn.disabled = false; fbBtn.style.display = ''; fbBtn.textContent = 'Submit Feedback';
+    renderStars(0);
+    document.getElementById('feedback-section').style.display = 'block';
   }
 
   function switchYear(y) {

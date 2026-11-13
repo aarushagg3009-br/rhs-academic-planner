@@ -51,14 +51,54 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+import uuid as _uuid
+from datetime import datetime
+
 from fastapi import Request
 from fastapi.responses import Response, HTMLResponse
+from sqlalchemy import create_engine, Column, String, Integer, Text, DateTime
+from sqlalchemy.orm import declarative_base, Session
+
+# ---------------------------------------------------------------------------
+# Database — SQLite locally, PostgreSQL on Render (DATABASE_URL set by Render)
+# Only stores anonymous UUIDs, timestamps, and user-submitted feedback ratings.
+# No student transcript data, grades, or course selections are persisted.
+# ---------------------------------------------------------------------------
+
+_DB_URL = os.environ.get("DATABASE_URL", "sqlite:///./planner.db")
+if _DB_URL.startswith("postgres://"):
+    _DB_URL = _DB_URL.replace("postgres://", "postgresql://", 1)
+
+_engine = create_engine(
+    _DB_URL,
+    connect_args={"check_same_thread": False} if _DB_URL.startswith("sqlite") else {},
+)
+_Base = declarative_base()
+
+class _User(_Base):
+    __tablename__ = "users"
+    id         = Column(String, primary_key=True)
+    first_seen = Column(DateTime, default=datetime.utcnow)
+    last_seen  = Column(DateTime, default=datetime.utcnow)
+
+class _Feedback(_Base):
+    __tablename__ = "feedback"
+    id         = Column(String, primary_key=True, default=lambda: str(_uuid.uuid4()))
+    user_id    = Column(String, default="")
+    rating     = Column(Integer)
+    comment    = Column(Text, default="")
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+_Base.metadata.create_all(_engine)
+
+# ---------------------------------------------------------------------------
 
 _APP_API_KEY = os.environ.get("APP_API_KEY", "")
 
 @app.middleware("http")
 async def _auth(request: Request, call_next):
-    if _APP_API_KEY and request.url.path not in ("/", "/health"):
+    # /stats handles its own auth (supports ?key= query param for browser access)
+    if _APP_API_KEY and request.url.path not in ("/", "/health", "/stats"):
         if request.headers.get("X-API-Key") != _APP_API_KEY:
             return Response(
                 '{"detail":"Invalid or missing API key"}',
@@ -437,3 +477,79 @@ def parse_transcript(body: ParseTranscriptRequest) -> list[dict]:
             seen[code] = c
 
     return list(seen.values())
+
+
+# ---------------------------------------------------------------------------
+# Analytics — no student data stored, only anonymous UUIDs + feedback
+# ---------------------------------------------------------------------------
+
+class _TrackLoginBody(BaseModel):
+    user_id: str = Field(..., min_length=1, max_length=64)
+
+class _FeedbackBody(BaseModel):
+    user_id: str = Field(default="", max_length=64)
+    rating: int = Field(..., ge=1, le=5)
+    comment: str = Field(default="", max_length=1000)
+
+
+@app.post("/track/login", tags=["analytics"])
+def track_login(body: _TrackLoginBody) -> dict:
+    """Record a login event for an anonymous user UUID. Creates the record on first visit."""
+    with Session(_engine) as s:
+        user = s.get(_User, body.user_id)
+        if user:
+            user.last_seen = datetime.utcnow()
+        else:
+            s.add(_User(id=body.user_id))
+        s.commit()
+    return {"ok": True}
+
+
+@app.post("/feedback", tags=["analytics"])
+def submit_feedback(body: _FeedbackBody) -> dict:
+    """Store a star rating and optional comment. No course or transcript data is recorded."""
+    with Session(_engine) as s:
+        s.add(_Feedback(
+            id=str(_uuid.uuid4()),
+            user_id=body.user_id,
+            rating=body.rating,
+            comment=body.comment.strip(),
+        ))
+        s.commit()
+    return {"ok": True}
+
+
+@app.get("/stats", tags=["analytics"])
+def stats(request: Request, key: Optional[str] = None) -> dict:
+    """
+    Aggregate usage stats. Requires the access code either as:
+    - X-API-Key header, or
+    - ?key=<code> query param (convenient for browser access)
+    """
+    if _APP_API_KEY:
+        provided = key or request.headers.get("X-API-Key", "")
+        if provided != _APP_API_KEY:
+            raise HTTPException(status_code=401, detail="Provide ?key=<access-code> or X-API-Key header")
+
+    with Session(_engine) as s:
+        total_users    = s.query(_User).count()
+        total_feedback = s.query(_Feedback).count()
+        avg_rating     = s.query(_Feedback).with_entities(
+            __import__("sqlalchemy").func.avg(_Feedback.rating)
+        ).scalar()
+        recent = (
+            s.query(_Feedback)
+            .order_by(_Feedback.created_at.desc())
+            .limit(20)
+            .all()
+        )
+
+    return {
+        "total_unique_users": total_users,
+        "total_feedback_submissions": total_feedback,
+        "average_rating": round(float(avg_rating), 2) if avg_rating else None,
+        "recent_feedback": [
+            {"rating": f.rating, "comment": f.comment, "submitted_at": f.created_at.isoformat()}
+            for f in recent
+        ],
+    }
