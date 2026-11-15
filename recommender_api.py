@@ -98,7 +98,7 @@ _APP_API_KEY = os.environ.get("APP_API_KEY", "")
 @app.middleware("http")
 async def _auth(request: Request, call_next):
     # /stats handles its own auth (supports ?key= query param for browser access)
-    if _APP_API_KEY and request.url.path not in ("/", "/health", "/stats"):
+    if _APP_API_KEY and request.url.path not in ("/", "/health", "/stats", "/admin"):
         if request.headers.get("X-API-Key") != _APP_API_KEY:
             return Response(
                 '{"detail":"Invalid or missing API key"}',
@@ -116,6 +116,11 @@ async def ngrok_skip_browser_warning(request: Request, call_next):
 @app.get("/", response_class=HTMLResponse)
 async def serve_frontend():
     html = (Path(__file__).parent / "frontend" / "index.html").read_text()
+    return HTMLResponse(content=html)
+
+@app.get("/admin", response_class=HTMLResponse)
+async def serve_stats_dashboard():
+    html = (Path(__file__).parent / "frontend" / "stats.html").read_text()
     return HTMLResponse(content=html)
 
 # ---------------------------------------------------------------------------

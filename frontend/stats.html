@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RHS Planner — Stats</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:       #2563eb;
+      --blue-dark:  #1d4ed8;
+      --blue-light: #dbeafe;
+      --blue-mid:   #93c5fd;
+      --green:      #059669;
+      --green-light:#d1fae5;
+      --amber:      #f59e0b;
+      --red:        #dc2626;
+      --red-light:  #fee2e2;
+      --g50:  #f9fafb;
+      --g100: #f3f4f6;
+      --g200: #e5e7eb;
+      --g300: #d1d5db;
+      --g400: #9ca3af;
+      --g500: #6b7280;
+      --g700: #374151;
+      --g900: #111827;
+      --r: 8px;
+      --sh: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--g50);
+      color: var(--g900);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    .nav {
+      background: var(--blue);
+      color: #fff;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      gap: 14px;
+      box-shadow: var(--sh);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .nav-logo { font-size: 18px; font-weight: 700; letter-spacing: -.4px; }
+    .nav-sep  { opacity: .35; }
+    .nav-sub  { font-size: 13px; opacity: .75; }
+
+    .wrap { max-width: 860px; margin: 0 auto; padding: 32px 20px 60px; }
+
+    .card {
+      background: #fff;
+      border-radius: var(--r);
+      box-shadow: var(--sh);
+      margin-bottom: 22px;
+      overflow: hidden;
+    }
+    .card-head {
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--g100);
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .card-body { padding: 22px; }
+
+    /* ── Stat tiles ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-tile {
+      background: #fff;
+      border: 1px solid var(--g200);
+      border-radius: var(--r);
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-value { font-size: 36px; font-weight: 700; color: var(--blue); line-height: 1; }
+    .stat-label { font-size: 12px; font-weight: 500; color: var(--g500); margin-top: 6px; text-transform: uppercase; letter-spacing: .05em; }
+
+    /* ── Stars ── */
+    .stars { color: var(--amber); letter-spacing: 1px; font-size: 15px; }
+    .stars-grey { color: var(--g200); }
+
+    /* ── Feedback list ── */
+    .fb-row {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--g100);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .fb-row:last-child { border-bottom: none; }
+    .fb-meta { display: flex; align-items: center; gap: 10px; }
+    .fb-time { font-size: 11px; color: var(--g400); }
+    .fb-comment { font-size: 13px; color: var(--g700); }
+    .fb-empty { font-size: 13px; color: var(--g400); font-style: italic; padding: 14px 0; }
+
+    /* ── Login overlay ── */
+    #login-overlay {
+      position: fixed; inset: 0;
+      background: var(--g50);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-card {
+      background: #fff;
+      border-radius: var(--r);
+      box-shadow: var(--sh);
+      max-width: 400px;
+      width: 100%;
+      margin: 0 20px;
+      overflow: hidden;
+    }
+
+    input[type="password"] {
+      padding: 8px 10px;
+      border: 1px solid var(--g300);
+      border-radius: 6px;
+      font-size: 14px;
+      color: var(--g900);
+      background: #fff;
+      width: 100%;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-light); }
+
+    label { font-size: 13px; font-weight: 500; color: var(--g700); display: block; margin-bottom: 5px; }
+
+    .btn {
+      padding: 9px 18px;
+      border-radius: 6px;
+      font-size: 14px; font-weight: 500;
+      cursor: pointer;
+      border: none;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all .15s;
+      width: 100%;
+    }
+    .btn-primary { background: var(--blue); color: #fff; margin-top: 14px; }
+    .btn-primary:hover { background: var(--blue-dark); }
+
+    .alert-err { background: var(--red-light); color: #991b1b; border: 1px solid #fecaca; border-radius: 6px; padding: 10px 12px; font-size: 13px; margin-top: 10px; }
+
+    .spin {
+      width: 32px; height: 32px;
+      border: 3px solid var(--g200);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin .65s linear infinite;
+      margin: 40px auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .refresh-btn {
+      font-size: 13px; color: var(--blue); background: none; border: none;
+      cursor: pointer; padding: 0; text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Login overlay ── -->
+<div id="login-overlay">
+  <div class="login-card">
+    <div class="card-head">Stats Dashboard</div>
+    <div class="card-body">
+      <p style="font-size:14px;color:var(--g500);margin-bottom:16px;">Enter the access code to view usage stats.</p>
+      <label for="key-input">Access Code</label>
+      <input type="password" id="key-input" placeholder="Access code"
+             onkeydown="if(event.key==='Enter')doLogin()" autocomplete="current-password">
+      <div id="login-err"></div>
+      <button class="btn btn-primary" onclick="doLogin()">View Stats</button>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <span class="nav-logo">RHS Academic Planner</span>
+  <span class="nav-sep">|</span>
+  <span class="nav-sub">Usage Stats</span>
+</nav>
+
+<div class="wrap">
+
+  <div id="loading" style="display:none;"><div class="spin"></div></div>
+  <div id="main-content" style="display:none;">
+
+    <!-- Stat tiles -->
+    <div class="stat-grid">
+      <div class="stat-tile">
+        <div class="stat-value" id="total-users">—</div>
+        <div class="stat-label">Unique Users</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value" id="avg-rating" style="font-size:28px;">—</div>
+        <div class="stat-label">Avg Rating</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-value" id="total-feedback">—</div>
+        <div class="stat-label">Feedback Submissions</div>
+      </div>
+    </div>
+
+    <!-- Recent feedback -->
+    <div class="card">
+      <div class="card-head" style="display:flex;align-items:center;justify-content:space-between;">
+        <span>Recent Feedback</span>
+        <button class="refresh-btn" onclick="loadStats()">&#8635; Refresh</button>
+      </div>
+      <div class="card-body">
+        <div id="feedback-list"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const API = '';
+  let apiKey = sessionStorage.getItem('rhs_stats_key') || '';
+
+  if (apiKey) { document.getElementById('login-overlay').style.display = 'none'; loadStats(); }
+
+  function doLogin() {
+    const key = document.getElementById('key-input').value.trim();
+    if (!key) return;
+    apiKey = key;
+    sessionStorage.setItem('rhs_stats_key', key);
+    document.getElementById('login-overlay').style.display = 'none';
+    loadStats();
+  }
+
+  function stars(rating) {
+    return [1,2,3,4,5].map(n =>
+      `<span class="${n <= rating ? 'stars' : 'stars stars-grey'}">&#9733;</span>`
+    ).join('');
+  }
+
+  function fmtDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      + ' ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+
+  async function loadStats() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('main-content').style.display = 'none';
+
+    try {
+      const res = await fetch(`${API}/stats?key=${encodeURIComponent(apiKey)}`);
+      if (res.status === 401) {
+        apiKey = ''; sessionStorage.removeItem('rhs_stats_key');
+        document.getElementById('login-err').innerHTML =
+          '<div class="alert-err">Incorrect access code. Please try again.</div>';
+        document.getElementById('login-overlay').style.display = 'flex';
+        document.getElementById('loading').style.display = 'none';
+        return;
+      }
+      if (!res.ok) throw new Error('Server error');
+      const data = await res.json();
+
+      document.getElementById('total-users').textContent = data.total_unique_users ?? '—';
+      document.getElementById('total-feedback').textContent = data.total_feedback_submissions ?? '—';
+
+      const avg = data.average_rating;
+      document.getElementById('avg-rating').innerHTML = avg != null
+        ? `${avg.toFixed(1)} <span style="font-size:18px;">${stars(Math.round(avg))}</span>`
+        : '—';
+
+      const list = document.getElementById('feedback-list');
+      const items = data.recent_feedback ?? [];
+      if (items.length === 0) {
+        list.innerHTML = '<div class="fb-empty">No feedback submitted yet.</div>';
+      } else {
+        list.innerHTML = items.map(f => `
+          <div class="fb-row">
+            <div class="fb-meta">
+              <span>${stars(f.rating)}</span>
+              <span class="fb-time">${fmtDate(f.submitted_at)}</span>
+            </div>
+            ${f.comment ? `<div class="fb-comment">${esc(f.comment)}</div>` : ''}
+          </div>`).join('');
+      }
+
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+
+    } catch(e) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('feedback-list').innerHTML =
+        '<div class="alert-err">Could not load stats. Try refreshing.</div>';
+      document.getElementById('main-content').style.display = 'block';
+    }
+  }
+
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+</script>
+
+</body>
+</html>
